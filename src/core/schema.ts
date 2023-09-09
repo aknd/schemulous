@@ -48,3 +48,13 @@ export const createSchema = <T>(
 
   return schema;
 };
+
+export type ValidationOptions = {
+  required_error?: string;
+  invalid_type_error?: string;
+  abortEarly?: boolean;
+};
+
+export type SchemaCoreBuilder<T, Options extends { [key: string]: unknown }> = (
+  options?: Options
+) => SchemaCore<T>;

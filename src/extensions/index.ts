@@ -1,3 +1,6 @@
+export type { SchemaMetadata } from './openapi-extensions';
+export { meta } from './openapi-extensions';
+
 export type {
   Fallback,
   RefineParams,
@@ -28,6 +31,3 @@ export {
   pattern,
   uuid,
 } from './string-extensions';
-
-export type { SchemaMetadata } from './openapi-extensions';
-export { meta } from './openapi-extensions';

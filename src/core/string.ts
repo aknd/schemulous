@@ -2,10 +2,9 @@ import type { Parse, SchemaCoreBuilder, ValidationOptions } from './schema';
 import { createSchema as createSchemaCore } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
-export const string: SchemaCoreBuilder<string, ValidationOptions> = (
-  options
-) => {
-  const baseParse: Parse<string> = (value, params) => {
+export const createStringParse =
+  (options?: ValidationOptions): Parse<string> =>
+  (value, params) => {
     if (value === undefined) {
       const issue = createValidationIssue({
         schemaType: 'string',
@@ -30,6 +29,10 @@ export const string: SchemaCoreBuilder<string, ValidationOptions> = (
     return value;
   };
 
+export const string: SchemaCoreBuilder<string, ValidationOptions> = (
+  options
+) => {
+  const baseParse = createStringParse(options);
   const schema = createSchemaCore('string', baseParse, {
     abortEarly: options?.abortEarly,
   });

@@ -1,6 +1,6 @@
 import type { SchemaCore } from '../core';
-import { refine } from './schema-extensions';
 import type { WithOpenApiMetadata } from './openapi-extensions';
+import { refine } from './schema-extensions';
 
 export const minLength = (
   schema: SchemaCore<string> & WithOpenApiMetadata<string>,

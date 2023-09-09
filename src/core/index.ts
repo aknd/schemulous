@@ -9,7 +9,7 @@ export type {
 } from './schema';
 export { createSchema } from './schema';
 
-export { string } from './string';
+export { createStringParse, string } from './string';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { createValidationIssue, ValidationError } from './errors';

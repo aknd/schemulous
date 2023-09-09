@@ -1,5 +1,5 @@
-import type { Parse, ValidationOptions } from './core';
-import { ValidationError, createSchema, createValidationIssue } from './core';
+import type { ValidationOptions } from './core';
+import { createStringParse } from './core';
 import {
   date,
   dateTime,
@@ -11,6 +11,7 @@ import {
   uuid,
 } from './extensions';
 import type { Schema } from './schema';
+import { createSchema } from './schema';
 
 export interface StringSchema extends Schema<string> {
   minLength(
@@ -42,31 +43,7 @@ export interface StringSchema extends Schema<string> {
 export type StringSchemaBuilder = (options?: ValidationOptions) => StringSchema;
 
 export const string: StringSchemaBuilder = (options) => {
-  const baseParse: Parse<string> = (value, params) => {
-    if (value === undefined) {
-      const issue = createValidationIssue({
-        schemaType: 'string',
-        code: 'required',
-        value,
-        message: options?.required_error,
-        path: params?.path,
-      });
-      throw new ValidationError([issue]);
-    }
-    if (typeof value !== 'string') {
-      const issue = createValidationIssue({
-        schemaType: 'string',
-        code: 'invalid_type',
-        value,
-        message: options?.invalid_type_error,
-        path: params?.path,
-      });
-      throw new ValidationError([issue]);
-    }
-
-    return value;
-  };
-
+  const baseParse = createStringParse(options);
   const schema = createSchema('string', baseParse, {
     abortEarly: options?.abortEarly,
   }) as Schema<string> & Partial<StringSchema>;

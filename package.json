@@ -1,0 +1,25 @@
+{
+  "name": "schemulous",
+  "version": "0.1.0",
+  "description": "A robust and flexible schema definition and validation library for TypeScript, designed to seamlessly integrate with OpenAPI specifications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aknd/schemulous.git"
+  },
+  "keywords": [
+    "typescript",
+    "schema",
+    "validation",
+    "openapi"
+  ],
+  "author": "Akihiro Kondo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aknd/schemulous/issues"
+  },
+  "homepage": "https://github.com/rebirthive/schemulous"
+}

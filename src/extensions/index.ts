@@ -3,14 +3,7 @@ export type {
   RefineParams,
   SafeParseError,
   SafeParseSuccess,
-  WithCatchValue,
-  WithDefaultValue,
-  WithNullable,
-  WithOptional,
-  WithPostprocesses,
-  WithPreprocesses,
   WithPrivateProps,
-  WithRefinements,
 } from './schema-extensions';
 export {
   catchValue,
@@ -24,3 +17,21 @@ export {
   refine,
   safeParse,
 } from './schema-extensions';
+
+export {
+  date,
+  DATE_REGEX,
+  DATE_TIME_REGEX,
+  dateTime,
+  email,
+  EMAIL_REGEX,
+  maxLength,
+  minLength,
+  numeric,
+  pattern,
+  uuid,
+  UUID_REGEX,
+} from './string-extensions';
+
+export type { SchemaMetadata, WithOpenApiMetadata } from './openapi-extensions';
+export { ALLOWED_METADATA_KEYS, meta } from './openapi-extensions';

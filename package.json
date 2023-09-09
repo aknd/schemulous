@@ -6,6 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
+    "lint": "eslint ./src/**/*.ts",
+    "lint:fix": "eslint ./src/**/*.ts --fix",
+    "type-check": "tsc -p . --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

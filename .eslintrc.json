@@ -13,6 +13,8 @@
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
     "prettier"
   ],
   "plugins": [
@@ -35,6 +37,20 @@
         "argsIgnorePattern": "^_"
       }
     ],
+    "sort-imports": ["error", {
+      "ignoreCase": false,
+      "ignoreDeclarationSort": true,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+    }],
     "prettier/prettier": ["error", {}, { "usePrettierrc": true }]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["index.ts"],
+      "rules": {
+        "import/no-unused-modules": ["warn", { "unusedExports": true }]
+      }
+    }
+  ]
 }

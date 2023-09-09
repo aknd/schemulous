@@ -1,10 +1,12 @@
 import type {
   CreateValidationIssueParams,
   ParseParams,
+  SchemaCore,
   SchemaType,
   ValidationIssue,
 } from '../core';
-import { createValidationIssue, SchemaCore, ValidationError } from '../core';
+import { ValidationError, createValidationIssue } from '../core';
+import { WithOpenApiMetadata } from './openapi-extensions';
 
 export type WithOptional = {
   _optional?: true;
@@ -169,8 +171,8 @@ export type WithPrivateProps<T> = WithIssues &
   WithCatchValue<T> &
   WithPreprocesses<T> &
   WithRefinements<T> &
-  WithPostprocesses<T>;
-// WithOpenApiMetadata<T>; TODO: include
+  WithPostprocesses<T> &
+  WithOpenApiMetadata<T>;
 
 export const parse = <T>(
   schema: SchemaCore<T> & WithPrivateProps<T>,

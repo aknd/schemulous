@@ -20,18 +20,14 @@ export {
 
 export {
   date,
-  DATE_REGEX,
-  DATE_TIME_REGEX,
   dateTime,
   email,
-  EMAIL_REGEX,
   maxLength,
   minLength,
   numeric,
   pattern,
   uuid,
-  UUID_REGEX,
 } from './string-extensions';
 
-export type { SchemaMetadata, WithOpenApiMetadata } from './openapi-extensions';
-export { ALLOWED_METADATA_KEYS, meta } from './openapi-extensions';
+export type { SchemaMetadata } from './openapi-extensions';
+export { meta } from './openapi-extensions';

@@ -6,7 +6,7 @@ import type {
   ValidationIssue,
 } from '../core';
 import { ValidationError, createValidationIssue } from '../core';
-import { WithOpenApiMetadata } from './openapi-extensions';
+import type { WithOpenApiMetadata } from './openapi-extensions';
 
 export type WithOptional = {
   _optional?: true;

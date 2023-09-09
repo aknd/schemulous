@@ -43,6 +43,10 @@
       "ignoreMemberSort": false,
       "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
     }],
+    "@typescript-eslint/consistent-type-imports": ["error", {
+      "prefer": "type-imports",
+      "disallowTypeAnnotations": true
+    }],
     "prettier/prettier": ["error", {}, { "usePrettierrc": true }]
   },
   "overrides": [

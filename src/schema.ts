@@ -11,12 +11,13 @@ import type {
   RefineParams,
   SafeParseError,
   SafeParseSuccess,
+  SchemaMetadata,
   WithPrivateProps,
 } from './extensions';
 import {
   catchValue,
   defaultValue,
-  // meta, // TODO: add meta to extensions
+  meta,
   nullable,
   nullish,
   optional,
@@ -41,7 +42,7 @@ export interface Schema<T> extends SchemaCore<T> {
     params?: RefineParams<T> | ((value: T) => RefineParams<T>)
   ): S;
   postprocess<S extends Schema<T>>(this: S, process: (value: T) => T): S;
-  // meta<S extends Schema<T>>(this: S, metadata: SchemaMetadata<T>): S;
+  meta<S extends Schema<T>>(this: S, metadata: SchemaMetadata<T>): S;
   parse: Parse<T>;
   safeParse(value: unknown): SafeParseSuccess<T> | SafeParseError;
 }
@@ -108,12 +109,12 @@ export const createSchema = <T>(
     return postprocess(this, process);
   };
 
-  // schema.meta = function <S extends Schema<T>>(
-  //   this: S,
-  //   metadata: SchemaMetadata<T>
-  // ): S {
-  //   return meta(this, metadata);
-  // };
+  schema.meta = function <S extends Schema<T>>(
+    this: S,
+    metadata: SchemaMetadata<T>
+  ): S {
+    return meta(this, metadata);
+  };
 
   schema.parse = function (value: unknown, params?: ParseParams): T {
     return parse(this, value, params);

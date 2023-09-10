@@ -2,10 +2,10 @@ import type { SchemaCore } from '../core';
 import type { WithOpenApiMetadata } from './openapi-extensions';
 import { refine } from './schema-extensions';
 
-export const int = (
-  schema: SchemaCore<number> & WithOpenApiMetadata<number>,
+export const int = <S extends SchemaCore<number>>(
+  schema: S & WithOpenApiMetadata<number>,
   message?: string | ((value: number) => string)
-): SchemaCore<number> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -18,9 +18,9 @@ export const int = (
   });
 };
 
-export const exclusive = <T>(
-  schema: SchemaCore<T> & WithOpenApiMetadata<T>
-): SchemaCore<T> => {
+export const exclusive = <S extends SchemaCore<number>>(
+  schema: S & WithOpenApiMetadata<number>
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -34,15 +34,15 @@ export const exclusive = <T>(
   return schema;
 };
 
-export type WithExclusive = {
-  exclusive(): SchemaCore<number>;
+export type WithExclusive<S extends SchemaCore<number>> = {
+  exclusive(): S;
 };
 
-export const minimum = (
-  schema: SchemaCore<number> & WithOpenApiMetadata<number>,
+export const minimum = <S extends SchemaCore<number>>(
+  schema: S & WithOpenApiMetadata<number>,
   min: number,
   message?: string | ((value: number) => string)
-): SchemaCore<number> & WithExclusive => {
+): S & WithExclusive<S> => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -59,20 +59,20 @@ export const minimum = (
       message,
       minimum: min,
     })
-  ) as SchemaCore<number> & Partial<WithExclusive>;
+  ) as S & Partial<WithExclusive<S>>;
 
-  newSchema.exclusive = function (): SchemaCore<number> {
+  newSchema.exclusive = function (): S {
     return exclusive(this);
   };
 
-  return newSchema as SchemaCore<number> & WithExclusive;
+  return newSchema as S & WithExclusive<S>;
 };
 
-export const maximum = (
-  schema: SchemaCore<number> & WithOpenApiMetadata<number>,
+export const maximum = <S extends SchemaCore<number>>(
+  schema: S & WithOpenApiMetadata<number>,
   max: number,
   message?: string | ((value: number) => string)
-): SchemaCore<number> & WithExclusive => {
+): S & WithExclusive<S> => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -89,20 +89,20 @@ export const maximum = (
       message,
       maximum: max,
     })
-  ) as SchemaCore<number> & Partial<WithExclusive>;
+  ) as S & Partial<WithExclusive<S>>;
 
-  newSchema.exclusive = function (): SchemaCore<number> {
+  newSchema.exclusive = function (): S {
     return exclusive(this);
   };
 
-  return newSchema as SchemaCore<number> & WithExclusive;
+  return newSchema as S & WithExclusive<S>;
 };
 
-export const multipleOf = (
-  schema: SchemaCore<number> & WithOpenApiMetadata<number>,
+export const multipleOf = <S extends SchemaCore<number>>(
+  schema: S & WithOpenApiMetadata<number>,
   multiple: number,
   message?: string | ((value: number) => string)
-): SchemaCore<number> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }

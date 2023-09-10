@@ -2,11 +2,11 @@ import type { SchemaCore } from '../core';
 import type { WithOpenApiMetadata } from './openapi-extensions';
 import { refine } from './schema-extensions';
 
-export const minLength = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const minLength = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   min: number,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -19,11 +19,11 @@ export const minLength = (
   });
 };
 
-export const maxLength = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const maxLength = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   max: number,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -39,10 +39,10 @@ export const maxLength = (
 export const EMAIL_REGEX =
   /^(?:(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+/=?\^`{}~|\-]+))*)|(?:"(?:\\[^\r\n]|[^\\"])*")))\@(?:(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+/=?\^`{}~|\-]+))*)|(?:\[(?:\\\S|[\x21-\x5a\x5e-\x7e])*\])))$/;
 
-export const email = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const email = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -59,10 +59,10 @@ export const email = (
 export const UUID_REGEX =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
-export const uuid = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const uuid = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -78,10 +78,10 @@ export const uuid = (
 // NOTE: This regular expression does not account for the varying number of days in each month or leap years.
 export const DATE_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
-export const date = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const date = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -98,10 +98,10 @@ export const date = (
 export const DATE_TIME_REGEX =
   /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.\d+)?([+-]([01][0-9]|2[0-3]):[0-5][0-9]|Z)$/;
 
-export const dateTime = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const dateTime = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -114,10 +114,10 @@ export const dateTime = (
   });
 };
 
-export const numeric = (
-  schema: SchemaCore<string>,
+export const numeric = <S extends SchemaCore<string>>(
+  schema: S,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   return refine(schema, (value: string) => !isNaN(Number(value)), {
     code: 'invalid_string',
     message,
@@ -125,11 +125,11 @@ export const numeric = (
   });
 };
 
-export const pattern = (
-  schema: SchemaCore<string> & WithOpenApiMetadata<string>,
+export const pattern = <S extends SchemaCore<string>>(
+  schema: S & WithOpenApiMetadata<string>,
   regex: RegExp,
   message?: string | ((value: string) => string)
-): SchemaCore<string> => {
+): S => {
   if (!schema._metadata) {
     schema._metadata = {};
   }

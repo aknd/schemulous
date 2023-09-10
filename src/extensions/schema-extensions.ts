@@ -174,8 +174,8 @@ export type WithPrivateProps<T> = WithIssues &
   WithPostprocesses<T> &
   WithOpenApiMetadata<T>;
 
-export const parse = <T>(
-  schema: SchemaCore<T> & WithPrivateProps<T>,
+export const parse = <T, S extends SchemaCore<T>>(
+  schema: S & WithPrivateProps<T>,
   value: unknown,
   params?: ParseParams
 ): T => {
@@ -242,8 +242,8 @@ export type SafeParseError = {
   error: ValidationError;
 };
 
-export const safeParse = <T>(
-  schema: SchemaCore<T> & WithPrivateProps<T>,
+export const safeParse = <T, S extends SchemaCore<T>>(
+  schema: S & WithPrivateProps<T>,
   value: unknown,
   params?: ParseParams
 ): SafeParseSuccess<T> | SafeParseError => {

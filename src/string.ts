@@ -1,4 +1,4 @@
-import type { ValidationOptions } from './core';
+import type { SchemaCore, ValidationOptions } from './core';
 import { createStringParse } from './core';
 import {
   date,
@@ -13,7 +13,7 @@ import {
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
-export interface StringSchema extends Schema<string> {
+export interface StringSchema extends Schema<string>, SchemaCore<string> {
   minLength(
     min: number,
     message?: string | ((value: string) => string)

@@ -6,20 +6,20 @@ export type WithObjectSchemaEx = {
   _strictMessage?: string | ((value: unknown) => string);
 };
 
-export const passthrough = <T>(
-  schema: SchemaCore<T> & WithObjectSchemaEx
-): SchemaCore<T & { [k: string]: unknown }> => {
+export const passthrough = <T, S extends SchemaCore<T>>(
+  schema: S & WithObjectSchemaEx
+): S & SchemaCore<T & { [k: string]: unknown }> => {
   schema._passthrough = true;
   delete schema._strict;
   delete schema._strictMessage;
 
-  return schema as SchemaCore<T & { [k: string]: unknown }>;
+  return schema as S & SchemaCore<T & { [k: string]: unknown }>;
 };
 
-export const strict = <T>(
-  schema: SchemaCore<T> & WithObjectSchemaEx,
+export const strict = <T, S extends SchemaCore<T>>(
+  schema: S & WithObjectSchemaEx,
   message?: string
-): SchemaCore<T> => {
+): S => {
   schema._strict = true;
   schema._strictMessage = message;
   delete schema._passthrough;

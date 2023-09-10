@@ -135,3 +135,6 @@ dist
 
 # Playgroud
 playground*.ts
+
+# Temporary files
+tmp

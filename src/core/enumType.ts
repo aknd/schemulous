@@ -1,17 +1,38 @@
-import type { Parse, SchemaCore, ValidationOptions } from './schema';
+import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
-export type EnumValidationOptions = ValidationOptions & {
+export type EnumTypeValidationOptions = ValidationOptions & {
   invalid_enum_value_error?: string | ((value: string) => string);
 };
 
-export const createEnumTypeParse =
-  <U extends readonly [string, ...string[]]>(
-    values: U,
-    options?: EnumValidationOptions
-  ): Parse<U[number]> =>
-  (value, params) => {
+export interface EnumTypeSchemaCore<U extends readonly [string, ...string[]]>
+  extends SchemaCore<U[number]> {
+  readonly enum: { [K in U[number]]: K };
+  readonly options: U;
+}
+
+export const createEnumTypeSchemaBase = <
+  U extends readonly [string, ...string[]],
+>(
+  values: U,
+  options?: EnumTypeValidationOptions
+): Pick<EnumTypeSchemaCore<U>, 'baseParse' | 'enum' | 'options'> => {
+  const schema = { options: values } as Partial<SchemaCore<U[number]>> & {
+    enum?: { [K in U[number]]: K };
+    options: U;
+  };
+
+  schema.enum = values.reduce(
+    (acc, value) => {
+      acc[value as U[number]] = value;
+
+      return acc;
+    },
+    {} as { [K in U[number]]: K }
+  );
+
+  schema.baseParse = (value, params): U[number] => {
     if (value === undefined) {
       const issue = createValidationIssue({
         schemaType: 'enum',
@@ -47,40 +68,30 @@ export const createEnumTypeParse =
     return value as U[number];
   };
 
-export interface EnumSchemaCore<U extends readonly [string, ...string[]]>
-  extends SchemaCore<U[number]> {
-  readonly enum: { [K in U[number]]: K };
-  readonly options: U;
-}
+  return schema as Pick<
+    EnumTypeSchemaCore<U>,
+    'baseParse' | 'enum' | 'options'
+  >;
+};
 
-export type EnumSchemaCoreBuilder = <
+export type EnumTypeSchemaCoreBuilder = <
   const U extends readonly [string, ...string[]],
 >(
   values: U,
-  options?: EnumValidationOptions
-) => EnumSchemaCore<U>;
+  options?: EnumTypeValidationOptions
+) => EnumTypeSchemaCore<U>;
 
-export const enumType: EnumSchemaCoreBuilder = <
+export const enumType: EnumTypeSchemaCoreBuilder = <
   const U extends readonly [string, ...string[]],
 >(
   values: U,
-  options?: EnumValidationOptions
+  options?: EnumTypeValidationOptions
 ) => {
-  const baseParse = createEnumTypeParse(values, options);
-  const schema = createSchema('enum', baseParse, {
+  const baseSchema = createEnumTypeSchemaBase(values, options);
+  const schema = createSchema('enum', baseSchema.baseParse, {
     abortEarly: options?.abortEarly,
   }) as SchemaCore<U[number]> & { enum?: { [K in U[number]]: K }; options?: U };
+  Object.assign(schema, baseSchema);
 
-  schema.enum = values.reduce(
-    (acc, value) => {
-      acc[value as U[number]] = value;
-
-      return acc;
-    },
-    {} as { [K in U[number]]: K }
-  );
-
-  schema.options = values;
-
-  return schema as EnumSchemaCore<U>;
+  return schema as EnumTypeSchemaCore<U>;
 };

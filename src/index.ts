@@ -12,3 +12,4 @@ export { any } from './any';
 export { literal } from './literal';
 export { enumType } from './enumType';
 export { record } from './record';
+export { tuple } from './tuple';

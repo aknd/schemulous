@@ -31,6 +31,8 @@ export type { EnumTypeSchemaCore, EnumTypeValidationOptions } from './enumType';
 export { createEnumTypeSchemaBase, enumType } from './enumType';
 export type { RecordSchemaCore } from './record';
 export { createRecordSchemaBase, record } from './record';
+export type { TupleSchemaCore, TupleValidationOptions } from './tuple';
+export { createTupleSchemaBase, tuple } from './tuple';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

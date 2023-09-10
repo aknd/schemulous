@@ -2,14 +2,17 @@ import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
-export type Primitive =
-  | string
-  | number
-  | boolean
-  | symbol
-  | bigint
-  | null
-  | undefined;
+export const PRIMITIVES = [
+  'string',
+  'number',
+  'bigint',
+  'boolean',
+  'symbol',
+  'undefined',
+  'null',
+] as const;
+
+export type Primitive = (typeof PRIMITIVES)[number];
 
 export type LiteralValidationOptions = Omit<
   ValidationOptions,

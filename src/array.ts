@@ -13,7 +13,7 @@ export type ElementSchema<E> = Schema<E>;
 //   : Schema<E>;
 
 export interface ArraySchema<E> extends Schema<E[]>, ArraySchemaCore<E> {
-  element: ElementSchema<E>;
+  readonly element: ElementSchema<E>;
   minItems(min: number, message?: string): ArraySchema<E>;
   maxItems(max: number, message?: string): ArraySchema<E>;
 }

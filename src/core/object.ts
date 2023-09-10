@@ -21,7 +21,7 @@ export type ShapeCore<T> = {
 };
 
 export interface ObjectSchemaCore<T> extends SchemaCore<T> {
-  shape: ShapeCore<T>;
+  readonly shape: ShapeCore<T>;
 }
 
 export const createObjectSchemaBase = <T>(

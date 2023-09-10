@@ -15,7 +15,7 @@ export type Shape<T> = {
 };
 
 export interface ObjectSchema<T> extends Schema<T>, ObjectSchemaCore<T> {
-  shape: Shape<T>;
+  readonly shape: Shape<T>;
   passthrough(): ObjectSchema<T & { [k: string]: unknown }>;
   strict(mesasge?: string): ObjectSchema<T>;
 }

@@ -26,9 +26,7 @@ export const createLiteralSchemaBase = <T extends Primitive>(
   literalValue: T,
   options?: LiteralValidationOptions
 ): Pick<LiteralSchemaCore<T>, 'baseParse' | 'value'> => {
-  const schema = { value: literalValue } as Partial<SchemaCore<T>> & {
-    value: T;
-  };
+  const schema = { value: literalValue } as Partial<LiteralSchemaCore<T>>;
 
   schema.baseParse = (value, params): T => {
     if (value === undefined && literalValue !== undefined) {

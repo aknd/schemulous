@@ -18,9 +18,8 @@ export const createEnumTypeSchemaBase = <
   values: U,
   options?: EnumTypeValidationOptions
 ): Pick<EnumTypeSchemaCore<U>, 'baseParse' | 'enum' | 'options'> => {
-  const schema = { options: values } as Partial<SchemaCore<U[number]>> & {
+  const schema = { options: values } as Partial<EnumTypeSchemaCore<U>> & {
     enum?: { [K in U[number]]: K };
-    options: U;
   };
 
   schema.enum = values.reduce(

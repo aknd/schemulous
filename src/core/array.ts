@@ -14,9 +14,7 @@ export const createArraySchemaBase = <E>(
   elementSchema: ElementSchemaCore<E>,
   options?: ValidationOptions
 ): Pick<ArraySchemaCore<E>, 'baseParse' | 'element'> => {
-  const schema = { element: elementSchema } as Partial<SchemaCore<E[]>> & {
-    element: ElementSchemaCore<E>;
-  };
+  const schema = { element: elementSchema } as Partial<ArraySchemaCore<E>>;
 
   schema.baseParse = (value, params): E[] => {
     if (value === undefined) {

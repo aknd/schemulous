@@ -14,3 +14,4 @@ export { enumType } from './enumType';
 export { record } from './record';
 export { tuple } from './tuple';
 export { intersection } from './intersection';
+export { union } from './union';

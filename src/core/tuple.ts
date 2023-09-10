@@ -4,16 +4,17 @@ import { parse } from '../extensions';
 import type { ValidationIssue } from './errors';
 import { ValidationError, createValidationIssue } from './errors';
 
+export type TupleValidationOptions = ValidationOptions & {
+  too_small_error?: string | ((value: unknown[]) => string);
+  too_big_error?: string | ((value: unknown[]) => string);
+};
+
 export interface TupleSchemaCore<
   SS extends [SchemaCore<unknown>, ...SchemaCore<unknown>[]],
 > extends SchemaCore<{ [I in keyof SS]: Infer<SS[I]> }> {
   elements: readonly [...SS];
 }
 
-export type TupleValidationOptions = ValidationOptions & {
-  too_small_error?: string | ((value: unknown[]) => string);
-  too_big_error?: string | ((value: unknown[]) => string);
-};
 export const createTupleSchemaBase = <
   SS extends [SchemaCore<unknown>, ...SchemaCore<unknown>[]],
 >(

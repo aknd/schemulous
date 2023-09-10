@@ -26,7 +26,7 @@ export type {
   LiteralValidationOptions,
   Primitive,
 } from './literal';
-export { createLiteralParse, literal } from './literal';
+export { createLiteralSchemaBase, literal } from './literal';
 export type { EnumTypeSchemaCore, EnumTypeValidationOptions } from './enumType';
 export { createEnumTypeSchemaBase, enumType } from './enumType';
 

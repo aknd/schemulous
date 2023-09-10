@@ -3,7 +3,7 @@ import type {
   LiteralValidationOptions,
   Primitive,
 } from './core';
-import { createLiteralParse } from './core';
+import { createLiteralSchemaBase } from './core';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
@@ -22,12 +22,11 @@ export const literal: LiteralSchemaBuilder = <T extends Primitive>(
   literalValue: T,
   options?: LiteralValidationOptions
 ) => {
-  const baseParse = createLiteralParse(literalValue, options);
-  const schema = createSchema('literal', baseParse, {
+  const baseSchema = createLiteralSchemaBase(literalValue, options);
+  const schema = createSchema('literal', baseSchema.baseParse, {
     abortEarly: options?.abortEarly,
   }) as Schema<T> & { value?: T };
-
-  schema.value = literalValue;
+  Object.assign(schema, baseSchema);
 
   return schema as LiteralSchema<T>;
 };

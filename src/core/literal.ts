@@ -1,4 +1,4 @@
-import type { Parse, SchemaCore, ValidationOptions } from './schema';
+import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
@@ -18,9 +18,19 @@ export type LiteralValidationOptions = Omit<
   invalid_literal_error?: string | ((value: unknown) => string);
 };
 
-export const createLiteralParse =
-  <T>(literalValue: T, options?: LiteralValidationOptions): Parse<T> =>
-  (value, params) => {
+export interface LiteralSchemaCore<T extends Primitive> extends SchemaCore<T> {
+  readonly value: T;
+}
+
+export const createLiteralSchemaBase = <T extends Primitive>(
+  literalValue: T,
+  options?: LiteralValidationOptions
+): Pick<LiteralSchemaCore<T>, 'baseParse' | 'value'> => {
+  const schema = { value: literalValue } as Partial<SchemaCore<T>> & {
+    value: T;
+  };
+
+  schema.baseParse = (value, params): T => {
     if (value === undefined && literalValue !== undefined) {
       const issue = createValidationIssue({
         schemaType: 'literal',
@@ -46,9 +56,8 @@ export const createLiteralParse =
     return value as T;
   };
 
-export interface LiteralSchemaCore<T extends Primitive> extends SchemaCore<T> {
-  readonly value: T;
-}
+  return schema as Pick<LiteralSchemaCore<T>, 'baseParse' | 'value'>;
+};
 
 export type LiteralSchemaCoreBuilder = <T extends Primitive>(
   literalValue: T,
@@ -59,12 +68,11 @@ export const literal: LiteralSchemaCoreBuilder = <T extends Primitive>(
   literalValue: T,
   options?: LiteralValidationOptions
 ) => {
-  const baseParse = createLiteralParse(literalValue, options);
-  const schema = createSchema('literal', baseParse, {
+  const baseSchema = createLiteralSchemaBase(literalValue, options);
+  const schema = createSchema('literal', baseSchema.baseParse, {
     abortEarly: options?.abortEarly,
   }) as SchemaCore<T> & { value?: T };
-
-  schema.value = literalValue;
+  Object.assign(schema, baseSchema);
 
   return schema as LiteralSchemaCore<T>;
 };

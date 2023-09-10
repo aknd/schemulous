@@ -43,3 +43,22 @@ export const pick = <T extends { [k: string]: unknown }, K extends keyof T>(
 
   return result as Pick<T, (typeof keys)[number]>;
 };
+
+export const plainDeepCopy = <T>(obj: T): T => {
+  if (obj === null) return obj;
+  if (typeof obj !== 'object') return obj;
+
+  if (Array.isArray(obj)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return obj.map((item) => plainDeepCopy(item)) as any;
+  }
+
+  const copiedObj: Partial<T> = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      copiedObj[key] = plainDeepCopy(obj[key]);
+    }
+  }
+
+  return copiedObj as T;
+};

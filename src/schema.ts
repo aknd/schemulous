@@ -15,6 +15,7 @@ import type {
 } from './extensions';
 import {
   catchValue,
+  copy,
   defaultValue,
   meta,
   nullable,
@@ -42,6 +43,7 @@ export interface Schema<T> extends SchemaCore<T> {
   ): S;
   postprocess<S extends Schema<T>>(this: S, process: (value: T) => T): S;
   meta<S extends Schema<T>>(this: S, metadata: SchemaMetadata<T>): S;
+  copy<S extends Schema<T>>(this: S): S;
   parse: Parse<T>;
   safeParse(value: unknown): SafeParseSuccess<T> | SafeParseError;
 }
@@ -116,6 +118,10 @@ export const createSchema = <T>(
     metadata: SchemaMetadata<T>
   ): S {
     return meta(this, metadata);
+  };
+
+  schema.copy = function <S extends Schema<T>>(this: S): S {
+    return copy(this);
   };
 
   schema.parse = function (value: unknown, params?: ParseParams): T {

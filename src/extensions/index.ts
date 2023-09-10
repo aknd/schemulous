@@ -10,6 +10,7 @@ export type {
 } from './schema-extensions';
 export {
   catchValue,
+  copy,
   defaultValue,
   nullable,
   nullish,

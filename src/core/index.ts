@@ -20,6 +20,7 @@ export type { ObjectSchemaCore } from './object';
 export { createObjectSchemaBase, object } from './object';
 export type { ArraySchemaCore } from './array';
 export { createArrayParse, array } from './array';
+export { any, anyParse } from './any';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

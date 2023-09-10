@@ -12,6 +12,7 @@ export { createSchema } from './schema';
 export { createStringParse, string } from './string';
 export { createNumberParse, number } from './number';
 export { createBooleanParse, boolean } from './boolean';
+export { createSymbolParse, symbol } from './symbol';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

@@ -9,3 +9,4 @@ export { date } from './date';
 export { object } from './object';
 export { array } from './array';
 export { any } from './any';
+export { literal } from './literal';

@@ -1,9 +1,9 @@
-import type { ValidationOptions } from './core';
+import type { SchemaCore, ValidationOptions } from './core';
 import { createDateParse } from './core';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
-export interface DateSchema extends Schema<Date> {}
+export interface DateSchema extends Schema<Date>, SchemaCore<Date> {}
 
 export type DateSchemaBuilder = (options?: ValidationOptions) => DateSchema;
 

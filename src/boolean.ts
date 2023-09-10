@@ -1,9 +1,9 @@
-import type { ValidationOptions } from './core';
+import type { SchemaCore, ValidationOptions } from './core';
 import { createBooleanParse } from './core';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
-export interface BooleanSchema extends Schema<boolean> {}
+export interface BooleanSchema extends Schema<boolean>, SchemaCore<boolean> {}
 
 export type BooleanSchemaBuilder = (
   options?: ValidationOptions

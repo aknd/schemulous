@@ -1,9 +1,9 @@
-import type { ValidationOptions } from './core';
+import type { SchemaCore, ValidationOptions } from './core';
 import { createNullTypeParse } from './core';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
-export interface NullTypeSchema extends Schema<null> {}
+export interface NullTypeSchema extends Schema<null>, SchemaCore<null> {}
 
 export type NullTypeSchemaBuilder = (
   options?: ValidationOptions

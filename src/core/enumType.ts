@@ -13,7 +13,7 @@ export interface EnumTypeSchemaCore<U extends readonly [string, ...string[]]>
 }
 
 export const createEnumTypeSchemaBase = <
-  U extends readonly [string, ...string[]],
+  const U extends readonly [string, ...string[]],
 >(
   values: U,
   options?: EnumTypeValidationOptions

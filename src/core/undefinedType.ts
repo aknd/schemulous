@@ -3,7 +3,7 @@ import { createSchema } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
 export const createUndefinedTypeParse =
-  (options?: ValidationOptions): Parse<undefined> =>
+  (options?: Omit<ValidationOptions, 'required_error'>): Parse<undefined> =>
   (value, params) => {
     if (value !== undefined) {
       const issue = createValidationIssue({

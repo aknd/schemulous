@@ -8,8 +8,8 @@ export type EnumTypeValidationOptions = ValidationOptions & {
 
 export interface EnumTypeSchemaCore<U extends readonly [string, ...string[]]>
   extends SchemaCore<U[number]> {
-  readonly enum: { [K in U[number]]: K };
-  readonly options: U;
+  readonly enum: { readonly [K in U[number]]: K };
+  options: readonly [...U];
 }
 
 export const createEnumTypeSchemaBase = <

@@ -5,7 +5,7 @@ import type { Schema } from './schema';
 import { createSchema } from './schema';
 
 export type Shape<T> = {
-  [K in keyof T]: Schema<T[K]>;
+  readonly [K in keyof T]: Schema<T[K]>;
   // NOTE: Distinguishing between 'RecordSchema' and 'ObjectSchema' can be challenging due to their structural similarities.
   // [K in keyof T]: T[K] extends { [key: string]: unknown }
   //   ? ObjectSchema<T[K]>

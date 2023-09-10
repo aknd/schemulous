@@ -11,13 +11,7 @@ import { ValidationError, createValidationIssue } from './errors';
 import { safeParsePlainObject } from '../helpers';
 
 export type ShapeCore<T> = {
-  [K in keyof T]: SchemaCore<T[K]>;
-  // NOTE: Distinguishing between 'RecordSchemaCore' and 'ObjectSchemaCore' can be challenging due to their structural similarities.
-  // [K in keyof T]: T[K] extends { [key: string]: unknown }
-  //   ? ObjectSchemaCore<T[K]>
-  //   : T[K] extends unknown[]
-  //   ? ArraySchemaCore<T[K][number]>
-  //   : Schema<T[K]>;
+  readonly [K in keyof T]: SchemaCore<T[K]>;
 };
 
 export interface ObjectSchemaCore<T> extends SchemaCore<T> {

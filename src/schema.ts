@@ -32,7 +32,7 @@ export interface Schema<T> extends SchemaCore<T> {
   optional<S extends Schema<T>>(this: S): S & Schema<T | undefined>;
   nullable<S extends Schema<T>>(this: S): S & Schema<T | null>;
   nullish<S extends Schema<T>>(this: S): S & Schema<T | null | undefined>;
-  default<S extends Schema<T>>(this: S, def: T): S;
+  default<S extends Schema<T>>(this: S, def: Readonly<T>): S;
   catch<S extends Schema<T>>(this: S, fallback: Fallback<T>): S;
   preprocess<S extends Schema<T>>(this: S, process: (value: unknown) => T): S;
   refine<S extends Schema<T>>(
@@ -75,7 +75,10 @@ export const createSchema = <T>(
     return nullish(this);
   };
 
-  schema.default = function <S extends Schema<T>>(this: S, def: T): S {
+  schema.default = function <S extends Schema<T>>(
+    this: S,
+    def: Readonly<T>
+  ): S {
     return defaultValue(this, def);
   };
 

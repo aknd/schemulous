@@ -42,12 +42,12 @@ export const nullish = <T, S extends SchemaCore<T>>(
 };
 
 export type WithDefaultValue<T> = {
-  _default?: T;
+  _default?: Readonly<T>;
 };
 
 export const defaultValue = <T, S extends SchemaCore<T>>(
   schema: S & WithDefaultValue<T>,
-  def: T
+  def: Readonly<T>
 ): S => {
   schema._default = def;
 
@@ -56,7 +56,7 @@ export const defaultValue = <T, S extends SchemaCore<T>>(
 
 export type Fallback<T> = T extends (...args: unknown[]) => unknown
   ? never
-  : T | (() => T);
+  : Readonly<T> | (() => Readonly<T>);
 
 export type WithCatchValue<T> = {
   _fallback?: Fallback<T>;

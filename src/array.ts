@@ -1,5 +1,5 @@
 import type { ArraySchemaCore, ValidationOptions } from './core';
-import { createArrayParse } from './core';
+import { createArraySchemaBase } from './core';
 import { maxItems, minItems } from './extensions';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
@@ -27,12 +27,11 @@ export const array: ArraySchemaBuilder = <E>(
   elementSchema: Schema<E>,
   options?: ValidationOptions
 ) => {
-  const baseParse = createArrayParse(elementSchema, options);
-  const schema = createSchema('array', baseParse, {
+  const baseSchema = createArraySchemaBase(elementSchema, options);
+  const schema = createSchema('array', baseSchema.baseParse, {
     abortEarly: options?.abortEarly,
   }) as Schema<E[]> & Partial<ArraySchema<E>>;
-
-  schema.element = elementSchema;
+  Object.assign(schema, baseSchema);
 
   schema.minItems = function (min: number, message?: string): ArraySchema<E> {
     return minItems(this, min, message) as ArraySchema<E>;

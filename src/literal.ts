@@ -9,9 +9,7 @@ import { createSchema } from './schema';
 
 export interface LiteralSchema<T extends Primitive>
   extends Schema<T>,
-    LiteralSchemaCore<T> {
-  readonly value: T;
-}
+    LiteralSchemaCore<T> {}
 
 export type LiteralSchemaBuilder = <T extends Primitive>(
   literalValue: T,

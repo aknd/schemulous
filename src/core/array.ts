@@ -1,4 +1,4 @@
-import type { Parse, SchemaCore, ValidationOptions } from './schema';
+import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import { parse } from '../extensions';
 import type { ValidationIssue } from './errors';
@@ -6,12 +6,19 @@ import { ValidationError, createValidationIssue } from './errors';
 
 export type ElementSchemaCore<E> = SchemaCore<E>;
 
-export const createArrayParse =
-  <E>(
-    elementSchema: ElementSchemaCore<E>,
-    options?: ValidationOptions
-  ): Parse<E[]> =>
-  (value, params) => {
+export interface ArraySchemaCore<E> extends SchemaCore<E[]> {
+  readonly element: ElementSchemaCore<E>;
+}
+
+export const createArraySchemaBase = <E>(
+  elementSchema: ElementSchemaCore<E>,
+  options?: ValidationOptions
+): Pick<ArraySchemaCore<E>, 'baseParse' | 'element'> => {
+  const schema = { element: elementSchema } as Partial<SchemaCore<E[]>> & {
+    element: ElementSchemaCore<E>;
+  };
+
+  schema.baseParse = (value, params): E[] => {
     if (value === undefined) {
       const issue = createValidationIssue({
         schemaType: 'array',
@@ -63,9 +70,8 @@ export const createArrayParse =
     return result;
   };
 
-export interface ArraySchemaCore<E> extends SchemaCore<E[]> {
-  element: ElementSchemaCore<E>;
-}
+  return schema as Pick<ArraySchemaCore<E>, 'baseParse' | 'element'>;
+};
 
 export type ArraySchemaCoreBuilder = <E>(
   elementSchema: SchemaCore<E>,
@@ -76,12 +82,11 @@ export const array: ArraySchemaCoreBuilder = <E>(
   elementSchema: SchemaCore<E>,
   options?: ValidationOptions
 ) => {
-  const baseParse = createArrayParse(elementSchema, options);
-  const schema = createSchema('array', baseParse, {
+  const baseSchema = createArraySchemaBase(elementSchema, options);
+  const schema = createSchema('array', baseSchema.baseParse, {
     abortEarly: options?.abortEarly,
   }) as SchemaCore<E[]> & Partial<ArraySchemaCore<E>>;
-
-  schema.element = elementSchema;
+  Object.assign(schema, baseSchema);
 
   return schema as ArraySchemaCore<E>;
 };

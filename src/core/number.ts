@@ -2,12 +2,12 @@ import type { Parse, SchemaCoreBuilder, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
-export const createStringParse =
-  (options?: ValidationOptions): Parse<string> =>
+export const createNumberParse =
+  (options?: ValidationOptions): Parse<number> =>
   (value, params) => {
     if (value === undefined) {
       const issue = createValidationIssue({
-        schemaType: 'string',
+        schemaType: 'number',
         code: 'required',
         value,
         message: options?.required_error,
@@ -15,9 +15,9 @@ export const createStringParse =
       });
       throw new ValidationError([issue]);
     }
-    if (typeof value !== 'string') {
+    if (typeof value !== 'number' || Number.isNaN(value)) {
       const issue = createValidationIssue({
-        schemaType: 'string',
+        schemaType: 'number',
         code: 'invalid_type',
         value,
         message: options?.invalid_type_error,
@@ -29,11 +29,11 @@ export const createStringParse =
     return value;
   };
 
-export const string: SchemaCoreBuilder<string, ValidationOptions> = (
+export const number: SchemaCoreBuilder<number, ValidationOptions> = (
   options
 ) => {
-  const baseParse = createStringParse(options);
-  const schema = createSchema('string', baseParse, {
+  const baseParse = createNumberParse(options);
+  const schema = createSchema('number', baseParse, {
     abortEarly: options?.abortEarly,
   });
 

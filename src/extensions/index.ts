@@ -31,3 +31,6 @@ export {
   pattern,
   uuid,
 } from './string-extensions';
+
+export type { WithExclusive } from './number-extensions';
+export { int, maximum, minimum, multipleOf } from './number-extensions';

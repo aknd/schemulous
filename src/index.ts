@@ -6,3 +6,4 @@ export { symbol } from './symbol';
 export { undefinedType } from './undefinedType';
 export { nullType } from './nullType';
 export { date } from './date';
+export { object } from './object';

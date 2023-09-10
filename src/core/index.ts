@@ -16,6 +16,8 @@ export { createSymbolParse, symbol } from './symbol';
 export { createUndefinedTypeParse, undefinedType } from './undefinedType';
 export { createNullTypeParse, nullType } from './nullType';
 export { createDateParse, date } from './date';
+export type { ObjectSchemaCore, Shape } from './object';
+export { createObjectSchemaBase, object } from './object';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

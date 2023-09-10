@@ -14,4 +14,4 @@ export { createNumberParse, number } from './number';
 export { createBooleanParse, boolean } from './boolean';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
-export { createValidationIssue, ValidationError } from './errors';
+export { ValidationError, createValidationIssue } from './errors';

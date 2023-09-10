@@ -30,6 +30,12 @@
       { "blankLine": "always", "prev": "function", "next": "*" },
       { "blankLine": "always", "prev": "*", "next": "function" }
     ],
+    "sort-imports": ["error", {
+      "ignoreCase": false,
+      "ignoreDeclarationSort": true,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+    }],
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-unused-vars": [
       "error",
@@ -37,15 +43,8 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "sort-imports": ["error", {
-      "ignoreCase": false,
-      "ignoreDeclarationSort": true,
-      "ignoreMemberSort": false,
-      "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
-    }],
     "@typescript-eslint/consistent-type-imports": ["error", {
-      "prefer": "type-imports",
-      "disallowTypeAnnotations": true
+      "prefer": "type-imports"
     }],
     "prettier/prettier": ["error", {}, { "usePrettierrc": true }]
   },

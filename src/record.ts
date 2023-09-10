@@ -7,6 +7,7 @@ import { createSchema } from './schema';
 export interface RecordSchema<VS extends Schema<Infer<VS>>>
   extends Schema<Record<string, Infer<VS>>>,
     RecordSchemaCore<VS> {
+  readonly valueSchema: VS;
   minProperties(
     min: number,
     message?: string | ((value: Record<string, Infer<VS>>) => string)

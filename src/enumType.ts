@@ -5,7 +5,10 @@ import { createSchema } from './schema';
 
 export interface EnumTypeSchema<U extends readonly [string, ...string[]]>
   extends Schema<U[number]>,
-    EnumTypeSchemaCore<U> {}
+    EnumTypeSchemaCore<U> {
+  readonly enum: { [K in U[number]]: K };
+  readonly options: U;
+}
 
 export type EnumTypeSchemaBuilder = <
   const U extends readonly [string, ...string[]],

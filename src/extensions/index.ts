@@ -39,3 +39,5 @@ export type { WithObjectSchemaEx } from './object-extensions';
 export { passthrough, strict } from './object-extensions';
 
 export { maxItems, minItems } from './array-extensions';
+
+export { maxProperties, minProperties } from './record-extensions';

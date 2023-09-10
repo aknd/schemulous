@@ -29,6 +29,8 @@ export type {
 export { createLiteralSchemaBase, literal } from './literal';
 export type { EnumTypeSchemaCore, EnumTypeValidationOptions } from './enumType';
 export { createEnumTypeSchemaBase, enumType } from './enumType';
+export type { RecordSchemaCore } from './record';
+export { createRecordSchemaBase, record } from './record';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

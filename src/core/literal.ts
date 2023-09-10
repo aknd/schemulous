@@ -2,17 +2,17 @@ import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import { ValidationError, createValidationIssue } from './errors';
 
-export const PRIMITIVES = [
-  'string',
-  'number',
-  'bigint',
-  'boolean',
-  'symbol',
-  'undefined',
-  'null',
-] as const;
+// export const PRIMITIVES = [
+//   'string',
+//   'number',
+//   'bigint',
+//   'boolean',
+//   'symbol',
+//   'undefined',
+//   'null',
+// ] as const;
 
-export type Primitive = (typeof PRIMITIVES)[number];
+// export type Primitive = (typeof PRIMITIVES)[number];
 
 export type LiteralValidationOptions = Omit<
   ValidationOptions,
@@ -21,15 +21,17 @@ export type LiteralValidationOptions = Omit<
   invalid_literal_error?: string | ((value: unknown) => string);
 };
 
-export interface LiteralSchemaCore<T extends Primitive> extends SchemaCore<T> {
+export interface LiteralSchemaCore<T> extends SchemaCore<T> {
   readonly value: T;
 }
 
-export const createLiteralSchemaBase = <T extends Primitive>(
-  literalValue: T,
+export const createLiteralSchemaBase = <T>(
+  literalValue: Readonly<T>,
   options?: LiteralValidationOptions
 ): Pick<LiteralSchemaCore<T>, 'baseParse' | 'value'> => {
-  const schema = { value: literalValue } as Partial<LiteralSchemaCore<T>>;
+  const schema = { value: literalValue } as Partial<SchemaCore<T>> & {
+    readonly value: T;
+  };
 
   schema.baseParse = (value, params): T => {
     if (value === undefined && literalValue !== undefined) {
@@ -60,13 +62,13 @@ export const createLiteralSchemaBase = <T extends Primitive>(
   return schema as Pick<LiteralSchemaCore<T>, 'baseParse' | 'value'>;
 };
 
-export type LiteralSchemaCoreBuilder = <T extends Primitive>(
-  literalValue: T,
+export type LiteralSchemaCoreBuilder = <T>(
+  literalValue: Readonly<T>,
   options?: LiteralValidationOptions
 ) => LiteralSchemaCore<T>;
 
-export const literal: LiteralSchemaCoreBuilder = <T extends Primitive>(
-  literalValue: T,
+export const literal: LiteralSchemaCoreBuilder = <T>(
+  literalValue: Readonly<T>,
   options?: LiteralValidationOptions
 ) => {
   const baseSchema = createLiteralSchemaBase(literalValue, options);

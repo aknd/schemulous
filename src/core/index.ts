@@ -21,11 +21,7 @@ export { createObjectSchemaBase, object } from './object';
 export type { ArraySchemaCore } from './array';
 export { array, createArraySchemaBase } from './array';
 export { any, anyParse } from './any';
-export type {
-  LiteralSchemaCore,
-  LiteralValidationOptions,
-  Primitive,
-} from './literal';
+export type { LiteralSchemaCore, LiteralValidationOptions } from './literal';
 export { createLiteralSchemaBase, literal } from './literal';
 export type { EnumTypeSchemaCore, EnumTypeValidationOptions } from './enumType';
 export { createEnumTypeSchemaBase, enumType } from './enumType';

@@ -1,25 +1,19 @@
-import type {
-  LiteralSchemaCore,
-  LiteralValidationOptions,
-  Primitive,
-} from './core';
+import type { LiteralSchemaCore, LiteralValidationOptions } from './core';
 import { createLiteralSchemaBase } from './core';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
-export interface LiteralSchema<T extends Primitive>
-  extends Schema<T>,
-    LiteralSchemaCore<T> {
+export interface LiteralSchema<T> extends Schema<T>, LiteralSchemaCore<T> {
   readonly value: T;
 }
 
-export type LiteralSchemaBuilder = <T extends Primitive>(
-  literalValue: T,
+export type LiteralSchemaBuilder = <T>(
+  literalValue: Readonly<T>,
   options?: LiteralValidationOptions
 ) => LiteralSchema<T>;
 
-export const literal: LiteralSchemaBuilder = <T extends Primitive>(
-  literalValue: T,
+export const literal: LiteralSchemaBuilder = <T>(
+  literalValue: Readonly<T>,
   options?: LiteralValidationOptions
 ) => {
   const baseSchema = createLiteralSchemaBase(literalValue, options);

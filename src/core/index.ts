@@ -27,6 +27,8 @@ export type {
   Primitive,
 } from './literal';
 export { createLiteralParse, literal } from './literal';
+export type { EnumSchemaCore, EnumValidationOptions } from './enumType';
+export { createEnumTypeParse, enumType } from './enumType';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

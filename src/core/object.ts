@@ -1,4 +1,4 @@
-import type { Parse, SchemaCore, ValidationOptions } from './schema';
+import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import type {
   WithObjectSchemaEx,
@@ -45,7 +45,7 @@ export const createObjectSchemaBase = <T>(
     }
   }
 
-  const baseParse: Parse<T> = (value, params) => {
+  schema.baseParse = function (value, params): T {
     if (value === undefined) {
       const issue = createValidationIssue({
         schemaType: 'object',
@@ -94,13 +94,13 @@ export const createObjectSchemaBase = <T>(
       }
     }
 
-    if (unparsedKeys.size > 0 && schema._strict) {
+    if (unparsedKeys.size > 0 && this._strict) {
       const issue = createValidationIssue({
         schemaType: 'object',
         code: 'unrecognized_keys',
         value: safeParsedObj,
         keys: [...unparsedKeys],
-        message: schema._strictMessage,
+        message: this._strictMessage,
         path: params?.path,
       });
       issues.push(issue);
@@ -110,7 +110,7 @@ export const createObjectSchemaBase = <T>(
       throw new ValidationError(issues);
     }
 
-    if (unparsedKeys.size > 0 && schema._passthrough) {
+    if (unparsedKeys.size > 0 && this._passthrough) {
       for (const key of unparsedKeys) {
         (result as { [key: string]: unknown })[key] = safeParsedObj[key];
       }
@@ -118,8 +118,6 @@ export const createObjectSchemaBase = <T>(
 
     return result as T;
   };
-
-  schema.baseParse = baseParse;
 
   return schema as Pick<ObjectSchemaCore<T>, 'baseParse' | 'shape'>;
 };

@@ -10,8 +10,7 @@ import type { ValidationIssue } from './errors';
 import { ValidationError, createValidationIssue } from './errors';
 import { safeParsePlainObject } from '../helpers';
 
-// TODO
-export type Shape<T> = {
+export type ShapeCore<T> = {
   [K in keyof T]: SchemaCore<T[K]>;
   // NOTE: Distinguishing between 'RecordSchemaCore' and 'ObjectSchemaCore' can be challenging due to their structural similarities.
   // [K in keyof T]: T[K] extends { [key: string]: unknown }
@@ -22,11 +21,11 @@ export type Shape<T> = {
 };
 
 export interface ObjectSchemaCore<T> extends SchemaCore<T> {
-  shape: Shape<T>;
+  shape: ShapeCore<T>;
 }
 
 export const createObjectSchemaBase = <T>(
-  shape: Shape<T>,
+  shape: ShapeCore<T>,
   options?: ValidationOptions
 ): Pick<ObjectSchemaCore<T>, 'baseParse' | 'shape'> => {
   const schema = { shape } as Partial<ObjectSchemaCore<T>> &
@@ -35,7 +34,7 @@ export const createObjectSchemaBase = <T>(
 
   schema._metadata = {};
   for (const key in shape) {
-    const valueSchema = shape[key] as Shape<T>[Extract<keyof T, string>] &
+    const valueSchema = shape[key] as ShapeCore<T>[Extract<keyof T, string>] &
       WithOptional;
     if (!valueSchema._optional) {
       if (!schema._metadata.required) {
@@ -123,12 +122,12 @@ export const createObjectSchemaBase = <T>(
 };
 
 export type ObjectSchemaCoreBuilder = <T>(
-  shape: Shape<T>,
+  shape: ShapeCore<T>,
   options?: ValidationOptions
 ) => ObjectSchemaCore<T>;
 
 export const object: ObjectSchemaCoreBuilder = <T>(
-  shape: Shape<T>,
+  shape: ShapeCore<T>,
   options?: ValidationOptions
 ) => {
   const schemaBase = createObjectSchemaBase<T>(shape, options);

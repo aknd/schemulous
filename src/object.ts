@@ -1,10 +1,21 @@
-import type { ObjectSchemaCore, Shape, ValidationOptions } from './core';
+import type { ObjectSchemaCore, ValidationOptions } from './core';
 import { createObjectSchemaBase } from './core';
 import { passthrough, strict } from './extensions';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
 
+export type Shape<T> = {
+  [K in keyof T]: Schema<T[K]>;
+  // NOTE: Distinguishing between 'RecordSchema' and 'ObjectSchema' can be challenging due to their structural similarities.
+  // [K in keyof T]: T[K] extends { [key: string]: unknown }
+  //   ? ObjectSchema<T[K]>
+  //   : T[K] extends unknown[]
+  //   ? ArraySchema<T[K][number]>
+  //   : Schema<T[K]>;
+};
+
 export interface ObjectSchema<T> extends Schema<T>, ObjectSchemaCore<T> {
+  shape: Shape<T>;
   passthrough(): ObjectSchema<T & { [k: string]: unknown }>;
   strict(mesasge?: string): ObjectSchema<T>;
 }

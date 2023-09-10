@@ -12,7 +12,6 @@ import type {
   SafeParseError,
   SafeParseSuccess,
   SchemaMetadata,
-  WithPrivateProps,
 } from './extensions';
 import {
   catchValue,
@@ -56,7 +55,7 @@ export const createSchema = <T>(
     schemaType,
     baseParse,
     ctx
-  ) as SchemaCore<T> & Partial<Schema<T>> & WithPrivateProps<T>;
+  ) as SchemaCore<T> & Partial<Schema<T>>;
 
   schema.optional = function <S extends Schema<T>>(
     this: S

@@ -6,7 +6,6 @@ export type {
   RefineParams,
   SafeParseError,
   SafeParseSuccess,
-  WithPrivateProps,
 } from './schema-extensions';
 export {
   catchValue,

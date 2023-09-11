@@ -1,11 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import {
   ValidationError,
-  array,
   createSchema,
   createValidationIssue,
-  date,
-  enumType,
   number,
   object,
   string,
@@ -191,6 +188,59 @@ describe('Schema', () => {
     test('should fail validation for invalid custom value', () => {
       const result = CustomSchema.safeParse('invalid-value');
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe('Schema Copy', () => {
+    describe('StringSchema', () => {
+      const originalSchema = string().minLength(5);
+      const copiedSchema = originalSchema.copy().maxLength(10);
+
+      test('original schema should not have maxLength constraint', () => {
+        const result = originalSchema.safeParse('abcdefghijk');
+        expect(result.success).toBe(true);
+      });
+
+      test('copied schema should have maxLength constraint', () => {
+        const result = copiedSchema.safeParse('abcdefghijk');
+        expect(result.success).toBe(false);
+      });
+    });
+
+    describe('NumberSchema', () => {
+      const originalSchema = number().minimum(5);
+      const copiedSchema = originalSchema.copy().maximum(10);
+
+      test('original schema should not have maximum constraint', () => {
+        const result = originalSchema.safeParse(15);
+        expect(result.success).toBe(true);
+      });
+
+      test('copied schema should have maximum constraint', () => {
+        const result = copiedSchema.safeParse(15);
+        expect(result.success).toBe(false);
+      });
+    });
+
+    describe('ObjectSchema', () => {
+      const originalSchema = object({
+        name: string(),
+      });
+      const copiedSchema = originalSchema.copy().passthrough();
+
+      test('original schema should not allow additional properties', () => {
+        const result = originalSchema.safeParse({ name: 'John', age: 30 });
+        expect(result.success).toBe(true);
+        if (!result.success) return;
+        expect(result.data).toEqual({ name: 'John' });
+      });
+
+      test('copied schema with passthrough should allow additional properties', () => {
+        const result = copiedSchema.safeParse({ name: 'John', age: 30 });
+        expect(result.success).toBe(true);
+        if (!result.success) return;
+        expect(result.data).toEqual({ name: 'John', age: 30 });
+      });
     });
   });
 });

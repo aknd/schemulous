@@ -52,7 +52,7 @@ export const defaultValue = <T, S extends SchemaCore<T>>(
 ): S => {
   schema._default = def;
 
-  return schema;
+  return schema as S;
 };
 
 export type Fallback<T> = T extends (...args: unknown[]) => unknown
@@ -69,7 +69,7 @@ export const catchValue = <T, S extends SchemaCore<T>>(
 ): S => {
   schema._fallback = fallback;
 
-  return schema;
+  return schema as S;
 };
 
 export type WithPreprocesses<T> = {
@@ -85,7 +85,7 @@ export const preprocess = <T, S extends SchemaCore<T>>(
   }
   schema._preprocesses.push(process);
 
-  return schema;
+  return schema as S;
 };
 
 export type WithRefinements<T> = {
@@ -146,7 +146,7 @@ export const refine = <T, S extends SchemaCore<T>>(
   }
   schema._refinements.push(refinement);
 
-  return schema;
+  return schema as S;
 };
 
 export type WithPostprocesses<T> = {
@@ -162,7 +162,7 @@ export const postprocess = <T, S extends SchemaCore<T>>(
   }
   schema._postprocesses.push(process);
 
-  return schema;
+  return schema as S;
 };
 
 export type WithPrivateProps<T> = WithIssues &

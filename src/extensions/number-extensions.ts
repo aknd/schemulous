@@ -31,7 +31,7 @@ export const exclusive = <S extends SchemaCore<number>>(
     schema._metadata.exclusiveMaximum = true;
   }
 
-  return schema;
+  return schema as S;
 };
 
 export type WithExclusive<S extends SchemaCore<number>> = {

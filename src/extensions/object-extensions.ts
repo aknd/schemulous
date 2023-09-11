@@ -24,5 +24,5 @@ export const strict = <T, S extends SchemaCore<T>>(
   schema._strictMessage = message;
   delete schema._passthrough;
 
-  return schema;
+  return schema as S;
 };

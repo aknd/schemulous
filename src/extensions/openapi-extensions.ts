@@ -54,5 +54,5 @@ export const meta = <T, S extends SchemaCore<T>>(
   }
   schema._metadata = schema._metadata ? { ...schema._metadata, ...data } : data;
 
-  return schema;
+  return schema as S;
 };

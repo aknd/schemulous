@@ -1,8 +1,11 @@
 import type { Infer, SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
-import { parse } from '../extensions';
+import type { ObjectSchemaCore } from './object';
+import type { WithObjectSchemaEx } from '../extensions';
+import { copy, parse, passthrough } from '../extensions';
 import type { ValidationIssue } from './errors';
 import { ValidationError } from './errors';
+import { getType } from '../helpers';
 
 export type MergeIntersection<Tuple> = Tuple extends [
   infer First,
@@ -40,9 +43,25 @@ export const createIntersectionSchemaBase = <
     let result: unknown;
     const issues: ValidationIssue[] = [];
 
+    let passthroughAll = true;
+    const allowedKeys = new Set<string>();
+
     for (const schema of schemas) {
       try {
-        result = parse(schema, value, params);
+        let currentSchema = schema;
+        if (schema.schemaType === 'object') {
+          const schemaWithEx = schema as ObjectSchemaCore<unknown> &
+            WithObjectSchemaEx;
+          const keys = Object.keys(schemaWithEx.shape);
+          keys.forEach((key) => allowedKeys.add(key));
+          if (schemaWithEx._strict || !schemaWithEx._passthrough) {
+            passthroughAll = false;
+          }
+          if (!schemaWithEx._strict && !schemaWithEx._passthrough) {
+            currentSchema = passthrough(copy(schemaWithEx));
+          }
+        }
+        result = parse(currentSchema, value, params);
       } catch (err) {
         if (err instanceof ValidationError) {
           issues.push(...err.issues);
@@ -57,6 +76,14 @@ export const createIntersectionSchemaBase = <
 
     if (issues.length > 0) {
       throw new ValidationError(issues);
+    }
+
+    if (getType(result) === 'object' && !passthroughAll) {
+      for (const key in result as { [k: string]: unknown }) {
+        if (!allowedKeys.has(key)) {
+          delete (result as { [k: string]: unknown })[key];
+        }
+      }
     }
 
     return result as MergeIntersection<{ [I in keyof U]: Infer<U[I]> }>;

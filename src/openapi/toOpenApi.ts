@@ -9,45 +9,11 @@ import type {
   TupleSchemaCore,
   UnionSchemaCore,
 } from '../core';
-import type {
-  StringFormat,
-  WithObjectSchemaEx,
-  WithPrivateProps,
-} from '../extensions';
+import type { WithObjectSchemaEx, WithPrivateProps } from '../extensions';
+import type { OpenApiDataType, OpenApiSchema } from './schema';
+import { OPEN_API_DATA_TYPE } from './schema';
 import { OpenApiError } from './errors';
 import { getType } from '../helpers';
-
-export type OpenApiSchema<T> = {
-  type?: string;
-  nullable?: boolean;
-  title?: string;
-  description?: string;
-  default?: T;
-  example?: T;
-  enum?: [...Exclude<T, null>[], T | null];
-  format?: StringFormat;
-  pattern?: string;
-  minLength?: number;
-  maxLength?: number;
-  minimum?: number;
-  exclusiveMinimum?: boolean;
-  maximum?: number;
-  exclusiveMaximum?: boolean;
-  multipleOf?: number;
-  properties?: { [key: string]: OpenApiSchema<unknown> };
-  additionalProperties?: boolean | OpenApiSchema<unknown>;
-  required?: string[];
-  minProperties?: number;
-  maxProperties?: number;
-  readOnly?: boolean;
-  writeOnly?: boolean;
-  items?: OpenApiSchema<unknown> | OpenApiSchema<unknown>[];
-  oneOf?: OpenApiSchema<unknown>[];
-  allOf?: OpenApiSchema<unknown>[];
-  minItems?: number;
-  maxItems?: number;
-  uniqueItems?: boolean;
-};
 
 export const OAS_IMCOMPATIBLE_TYPES = [
   'symbol',
@@ -195,8 +161,8 @@ export const toOpenApi = <T>(
     });
   }
 
-  if (type) {
-    openApiSchema.type = type;
+  if (type && OPEN_API_DATA_TYPE.some((t) => t === type)) {
+    openApiSchema.type = type as OpenApiDataType;
   }
 
   return openApiSchema;

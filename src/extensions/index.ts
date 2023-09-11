@@ -1,8 +1,4 @@
-export type {
-  SchemaMetadata,
-  StringFormat,
-  WithOpenApiMetadata,
-} from './openapi-extensions';
+export type { SchemaMetadata, WithOpenApiMetadata } from './openapi-extensions';
 export { meta } from './openapi-extensions';
 
 export type {
@@ -39,7 +35,13 @@ export {
 } from './string-extensions';
 
 export type { WithExclusive } from './number-extensions';
-export { int, maximum, minimum, multipleOf } from './number-extensions';
+export {
+  exclusive,
+  int,
+  maximum,
+  minimum,
+  multipleOf,
+} from './number-extensions';
 
 export type { WithObjectSchemaEx } from './object-extensions';
 export { passthrough, strict } from './object-extensions';

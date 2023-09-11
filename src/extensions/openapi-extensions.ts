@@ -1,10 +1,9 @@
 import type { SchemaCore } from '../core';
+import type { OpenApiDataType, StringFormat } from '../openapi';
 import { pick } from '../helpers';
 
-export type StringFormat = 'email' | 'uuid' | 'date' | 'date-time';
-
 export type OpenApiMetadata<T> = {
-  type?: string;
+  type?: OpenApiDataType;
   title?: string;
   description?: string;
   example?: T;

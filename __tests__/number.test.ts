@@ -28,12 +28,12 @@ describe('NumberSchema', () => {
 
   describe('minimum with exclusive', () => {
     test('should validate number greater than minimum (exclusive) successfully', () => {
-      const result = number().minimum(5).exclusive().safeParse(5.1);
+      const result = number().minimum(5).exclusiveMinimum().safeParse(5.1);
       expect(result.success).toBe(true);
     });
 
     test('should fail validation for number equal to minimum (exclusive)', () => {
-      const result = number().minimum(5).exclusive().safeParse(5);
+      const result = number().minimum(5).exclusiveMinimum().safeParse(5);
       expect(result.success).toBe(false);
     });
   });
@@ -52,12 +52,12 @@ describe('NumberSchema', () => {
 
   describe('maximum with exclusive', () => {
     test('should validate number less than maximum (exclusive) successfully', () => {
-      const result = number().maximum(5).exclusive().safeParse(4.9);
+      const result = number().maximum(5).exclusiveMaximum().safeParse(4.9);
       expect(result.success).toBe(true);
     });
 
     test('should fail validation for number equal to maximum (exclusive)', () => {
-      const result = number().maximum(5).exclusive().safeParse(5);
+      const result = number().maximum(5).exclusiveMaximum().safeParse(5);
       expect(result.success).toBe(false);
     });
   });

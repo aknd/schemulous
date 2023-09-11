@@ -1,6 +1,6 @@
 import type { SchemaCore, ValidationOptions } from './core';
 import { createNumberParse } from './core';
-import type { WithExclusive } from './extensions';
+import type { WithExclusiveMaximum, WithExclusiveMinimum } from './extensions';
 import { int, maximum, minimum, multipleOf } from './extensions';
 import type { Schema } from './schema';
 import { createSchema } from './schema';
@@ -10,11 +10,11 @@ export interface NumberSchema extends Schema<number>, SchemaCore<number> {
   minimum(
     min: number,
     message?: string | ((value: number) => string)
-  ): NumberSchema & WithExclusive<NumberSchema>;
+  ): NumberSchema & WithExclusiveMinimum<NumberSchema>;
   maximum(
     max: number,
     message?: string | ((value: number) => string)
-  ): NumberSchema & WithExclusive<NumberSchema>;
+  ): NumberSchema & WithExclusiveMaximum<NumberSchema>;
   multipleOf(
     multiple: number,
     message?: string | ((value: number) => string)
@@ -38,17 +38,17 @@ export const number: NumberSchemaBuilder = (options) => {
   schema.minimum = function (
     min: number,
     message?: string | ((value: number) => string)
-  ): NumberSchema & WithExclusive<NumberSchema> {
+  ): NumberSchema & WithExclusiveMinimum<NumberSchema> {
     return minimum(this, min, message) as NumberSchema &
-      WithExclusive<NumberSchema>;
+      WithExclusiveMinimum<NumberSchema>;
   };
 
   schema.maximum = function (
     max: number,
     message?: string | ((value: number) => string)
-  ): NumberSchema & WithExclusive<NumberSchema> {
+  ): NumberSchema & WithExclusiveMaximum<NumberSchema> {
     return maximum(this, max, message) as NumberSchema &
-      WithExclusive<NumberSchema>;
+      WithExclusiveMaximum<NumberSchema>;
   };
 
   schema.multipleOf = function (

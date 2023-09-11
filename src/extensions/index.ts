@@ -34,9 +34,13 @@ export {
   uuid,
 } from './string-extensions';
 
-export type { WithExclusive } from './number-extensions';
+export type {
+  WithExclusiveMaximum,
+  WithExclusiveMinimum,
+} from './number-extensions';
 export {
-  exclusive,
+  exclusiveMaximum,
+  exclusiveMinimum,
   int,
   maximum,
   minimum,

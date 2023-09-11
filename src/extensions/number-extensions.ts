@@ -18,7 +18,7 @@ export const int = <S extends SchemaCore<number>>(
   });
 };
 
-export const exclusive = <S extends SchemaCore<number>>(
+export const exclusiveMinimum = <S extends SchemaCore<number>>(
   schema: S & WithOpenApiMetadata<number>
 ): S => {
   if (!schema._metadata) {
@@ -27,22 +27,19 @@ export const exclusive = <S extends SchemaCore<number>>(
   if (schema._metadata.minimum !== undefined) {
     schema._metadata.exclusiveMinimum = true;
   }
-  if (schema._metadata.maximum !== undefined) {
-    schema._metadata.exclusiveMaximum = true;
-  }
 
   return schema as S;
 };
 
-export type WithExclusive<S extends SchemaCore<number>> = {
-  exclusive(): S;
+export type WithExclusiveMinimum<S extends SchemaCore<number>> = {
+  exclusiveMinimum(): S;
 };
 
 export const minimum = <S extends SchemaCore<number>>(
   schema: S & WithOpenApiMetadata<number>,
   min: number,
   message?: string | ((value: number) => string)
-): S & WithExclusive<S> => {
+): S & WithExclusiveMinimum<S> => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -59,20 +56,37 @@ export const minimum = <S extends SchemaCore<number>>(
       message,
       minimum: min,
     })
-  ) as S & Partial<WithExclusive<S>>;
+  ) as S & Partial<WithExclusiveMinimum<S>>;
 
-  newSchema.exclusive = function (): S {
-    return exclusive(this);
+  newSchema.exclusiveMinimum = function (): S {
+    return exclusiveMinimum(this);
   };
 
-  return newSchema as S & WithExclusive<S>;
+  return newSchema as S & WithExclusiveMinimum<S>;
+};
+
+export const exclusiveMaximum = <S extends SchemaCore<number>>(
+  schema: S & WithOpenApiMetadata<number>
+): S => {
+  if (!schema._metadata) {
+    schema._metadata = {};
+  }
+  if (schema._metadata.maximum !== undefined) {
+    schema._metadata.exclusiveMaximum = true;
+  }
+
+  return schema as S;
+};
+
+export type WithExclusiveMaximum<S extends SchemaCore<number>> = {
+  exclusiveMaximum(): S;
 };
 
 export const maximum = <S extends SchemaCore<number>>(
   schema: S & WithOpenApiMetadata<number>,
   max: number,
   message?: string | ((value: number) => string)
-): S & WithExclusive<S> => {
+): S & WithExclusiveMaximum<S> => {
   if (!schema._metadata) {
     schema._metadata = {};
   }
@@ -89,13 +103,13 @@ export const maximum = <S extends SchemaCore<number>>(
       message,
       maximum: max,
     })
-  ) as S & Partial<WithExclusive<S>>;
+  ) as S & Partial<WithExclusiveMaximum<S>>;
 
-  newSchema.exclusive = function (): S {
-    return exclusive(this);
+  newSchema.exclusiveMaximum = function (): S {
+    return exclusiveMaximum(this);
   };
 
-  return newSchema as S & WithExclusive<S>;
+  return newSchema as S & WithExclusiveMaximum<S>;
 };
 
 export const multipleOf = <S extends SchemaCore<number>>(

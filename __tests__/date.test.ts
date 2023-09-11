@@ -7,9 +7,8 @@ describe('DateSchema', () => {
       const value = new Date();
       const result = date().safeParse(value);
       expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(value);
-      }
+      if (!result.success) return;
+      expect(result.data).toEqual(value);
     });
 
     test('should fail validation for non-date value (string)', () => {

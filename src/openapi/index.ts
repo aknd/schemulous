@@ -1,3 +1,2 @@
-export type { OpenApiDataType, StringFormat } from './schema';
-
+export type { OpenApiDataType, StringFormat } from './toOpenApi';
 export { toOpenApi } from './toOpenApi';

@@ -1,4 +1,8 @@
-export type { SchemaMetadata, WithOpenApiMetadata } from './openapi-extensions';
+export type {
+  SchemaMetadata,
+  StringFormat,
+  WithOpenApiMetadata,
+} from './openapi-extensions';
 export { meta } from './openapi-extensions';
 
 export type {
@@ -7,6 +11,7 @@ export type {
   SafeParseError,
   SafeParseSuccess,
   WithOptional,
+  WithPrivateProps,
 } from './schema-extensions';
 export {
   catchValue,

@@ -17,3 +17,5 @@ export { intersection } from './intersection';
 export { union } from './union';
 
 export { toOpenApi } from './openapi';
+
+export { ValidationError, createValidationIssue } from './core';

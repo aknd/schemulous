@@ -1,5 +1,15 @@
 import { describe, expect, test } from 'vitest';
-import { array, date, enumType, number, object, string } from '../src';
+import {
+  ValidationError,
+  array,
+  createSchema,
+  createValidationIssue,
+  date,
+  enumType,
+  number,
+  object,
+  string,
+} from '../src';
 
 describe('Schema', () => {
   // String
@@ -362,6 +372,34 @@ describe('Schema', () => {
         if (!result.success) return;
         expect(result.data).toBe(fallbackValue);
       });
+    });
+  });
+
+  // CustomSchema
+  describe('CustomSchema', () => {
+    const CustomSchema = createSchema('custom', (value: unknown) => {
+      if (typeof value !== 'string' || !value.startsWith('custom-')) {
+        const issue = createValidationIssue({
+          schemaType: 'string',
+          code: 'custom',
+          value,
+        });
+        throw new ValidationError([issue]);
+      }
+
+      return value;
+    });
+
+    test('should validate custom value successfully', () => {
+      const result = CustomSchema.safeParse('custom-value');
+      expect(result.success).toBe(true);
+      if (!result.success) return;
+      expect(result.data).toBe('custom-value');
+    });
+
+    test('should fail validation for invalid custom value', () => {
+      const result = CustomSchema.safeParse('invalid-value');
+      expect(result.success).toBe(false);
     });
   });
 });

@@ -26,7 +26,7 @@ export interface LiteralSchemaCore<T> extends SchemaCore<T> {
 }
 
 export const createLiteralSchemaBase = <T>(
-  literalValue: Readonly<T>,
+  literalValue: T,
   options?: LiteralValidationOptions
 ): Pick<LiteralSchemaCore<T>, 'baseParse' | 'value'> => {
   const schema = { value: literalValue } as Partial<SchemaCore<T>> & {
@@ -63,12 +63,12 @@ export const createLiteralSchemaBase = <T>(
 };
 
 export type LiteralSchemaCoreBuilder = <T>(
-  literalValue: Readonly<T>,
+  literalValue: T,
   options?: LiteralValidationOptions
 ) => LiteralSchemaCore<T>;
 
 export const literal: LiteralSchemaCoreBuilder = <T>(
-  literalValue: Readonly<T>,
+  literalValue: T,
   options?: LiteralValidationOptions
 ) => {
   const baseSchema = createLiteralSchemaBase(literalValue, options);

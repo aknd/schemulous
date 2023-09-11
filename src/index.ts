@@ -15,3 +15,5 @@ export { record } from './record';
 export { tuple } from './tuple';
 export { intersection } from './intersection';
 export { union } from './union';
+
+export { toOpenApi } from './openapi';

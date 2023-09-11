@@ -8,12 +8,12 @@ export interface LiteralSchema<T> extends Schema<T>, LiteralSchemaCore<T> {
 }
 
 export type LiteralSchemaBuilder = <T>(
-  literalValue: Readonly<T>,
+  literalValue: T,
   options?: LiteralValidationOptions
 ) => LiteralSchema<T>;
 
 export const literal: LiteralSchemaBuilder = <T>(
-  literalValue: Readonly<T>,
+  literalValue: T,
   options?: LiteralValidationOptions
 ) => {
   const baseSchema = createLiteralSchemaBase(literalValue, options);

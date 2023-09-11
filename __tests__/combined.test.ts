@@ -15,9 +15,17 @@ describe('Nested Combined Schema Tests', () => {
 
   const NumberSchema = number().int().minimum(5).maximum(100);
 
+  const NumberSchemaExclusive = number()
+    .int()
+    .minimum(10)
+    .exclusiveMinimum()
+    .maximum(90)
+    .exclusiveMaximum();
+
   const SimpleObjectSchema = object({
     name: StringSchema.copy(),
     age: NumberSchema.copy(),
+    score: NumberSchemaExclusive.copy(),
   });
 
   const NestedObjectSchema = object({
@@ -66,6 +74,7 @@ describe('Nested Combined Schema Tests', () => {
         profile: {
           name: 'JohnDoe@example.com',
           age: 30,
+          score: 50,
         },
         isActive: true,
       },
@@ -75,6 +84,7 @@ describe('Nested Combined Schema Tests', () => {
           details: {
             name: 'JohnDoe@example.com',
             age: 25,
+            score: 45,
           },
         },
         {
@@ -82,6 +92,7 @@ describe('Nested Combined Schema Tests', () => {
           details: {
             name: 'JaneDoe@example.com',
             age: 28,
+            score: 55,
           },
         },
       ],
@@ -89,11 +100,13 @@ describe('Nested Combined Schema Tests', () => {
       both: {
         name: 'JohnDoe@example.com',
         age: 30,
+        score: 60,
         isVerified: true,
       },
       either: {
         name: 'JohnDoe@example.com',
         age: 30,
+        score: 65,
       },
       usersArray: {
         users: ['JohnDoe@example.com', 'JaneDoe@example.com'],

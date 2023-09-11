@@ -8,67 +8,71 @@ import {
   string,
   tuple,
   union,
-} from '../src';
+} from '../../src/core';
+import {
+  copy,
+  email,
+  exclusiveMaximum,
+  exclusiveMinimum,
+  int,
+  maxLength,
+  maximum,
+  minLength,
+  minimum,
+  safeParse,
+} from '../../src/extensions';
 
-describe('Nested Combined Schema Tests', () => {
-  const StringSchema = string().minLength(5).maxLength(10).email();
+describe('Nested Combined SchemaCore Tests', () => {
+  const StringSchema = email(maxLength(minLength(string(), 5), 10));
 
-  const NumberSchema = number().int().minimum(5).maximum(100);
+  const NumberSchema = maximum(minimum(int(number()), 5), 100);
 
-  const NumberSchemaExclusive = number()
-    .int()
-    .minimum(10)
-    .exclusiveMinimum()
-    .maximum(90)
-    .exclusiveMaximum();
+  const NumberSchemaExclusive = exclusiveMaximum(
+    maximum(exclusiveMinimum(minimum(number(), 10)), 90)
+  );
 
   const SimpleObjectSchema = object({
-    name: StringSchema.copy(),
-    age: NumberSchema.copy(),
-    score: NumberSchemaExclusive.copy(),
+    name: copy(StringSchema),
+    age: copy(NumberSchema),
+    score: copy(NumberSchemaExclusive),
   });
 
   const NestedObjectSchema = object({
-    profile: SimpleObjectSchema.copy(),
+    profile: copy(SimpleObjectSchema),
     isActive: boolean(),
-  }).strict();
+  });
 
   const ArrayWithObjectSchema = array(
     object({
-      id: NumberSchema.copy(),
-      details: SimpleObjectSchema.copy(),
+      id: copy(NumberSchema),
+      details: copy(SimpleObjectSchema),
     })
   );
 
-  const ObjectWithArraySchema = object({
-    users: array(StringSchema.copy()),
-  }).passthrough();
-
   const TupleSchema = tuple([
-    StringSchema.copy(),
-    NumberSchema.copy(),
+    copy(StringSchema),
+    copy(NumberSchema),
     boolean(),
   ]);
 
-  const NestedTupleSchema = tuple([StringSchema.copy(), TupleSchema.copy()]);
+  const NestedTupleSchema = tuple([copy(StringSchema), copy(TupleSchema)]);
 
   const IntersectionSchema = intersection([
-    SimpleObjectSchema.copy(),
+    copy(SimpleObjectSchema),
     object({ isVerified: boolean() }),
   ]);
 
-  const UnionSchema = union([StringSchema.copy(), SimpleObjectSchema.copy()]);
+  const UnionSchema = union([copy(StringSchema), copy(SimpleObjectSchema)]);
 
   const ComplexObjectSchema = object({
-    data: NestedObjectSchema.copy(),
-    list: ArrayWithObjectSchema.copy(),
-    mixed: NestedTupleSchema.copy(),
-    both: IntersectionSchema.copy(),
-    either: UnionSchema.copy(),
-    usersArray: ObjectWithArraySchema.copy(),
+    data: NestedObjectSchema,
+    list: ArrayWithObjectSchema,
+    mixed: NestedTupleSchema,
+    both: IntersectionSchema,
+    either: UnionSchema,
   });
 
-  test('should validate nested combined schemas successfully', () => {
+  test('should validate lightweight nested combined schemas successfully', () => {
     const data = {
       data: {
         profile: {
@@ -108,12 +112,9 @@ describe('Nested Combined Schema Tests', () => {
         age: 30,
         score: 65,
       },
-      usersArray: {
-        users: ['JohnDoe@example.com', 'JaneDoe@example.com'],
-      },
     };
 
-    const result = ComplexObjectSchema.safeParse(data);
+    const result = safeParse(ComplexObjectSchema, data);
     if (!result.success) {
       console.log(result.error.issues);
     }

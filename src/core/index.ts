@@ -16,7 +16,7 @@ export { createSymbolParse, symbol } from './symbol';
 export { createUndefinedTypeParse, undefinedType } from './undefinedType';
 export { createNullTypeParse, nullType } from './nullType';
 export { createDateParse, date } from './date';
-export type { ObjectSchemaCore, ShapeCore } from './object';
+export type { ObjectSchemaCore } from './object';
 export { createObjectSchemaBase, object } from './object';
 export type { ArraySchemaCore } from './array';
 export { array, createArraySchemaBase } from './array';

@@ -1,11 +1,11 @@
 import type { SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
+import { parse } from './parse';
 import type {
   WithObjectSchemaEx,
   WithOpenApiMetadata,
   WithOptional,
 } from '../extensions';
-import { parse } from '../extensions';
 import type { ValidationIssue } from './errors';
 import { ValidationError, createValidationIssue } from './errors';
 import { safeParsePlainObject } from '../helpers';

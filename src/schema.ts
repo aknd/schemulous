@@ -1,18 +1,14 @@
 import type {
   Parse,
   ParseParams,
+  SafeParseError,
+  SafeParseSuccess,
   SchemaContext,
   SchemaCore,
   SchemaType,
 } from './core';
-import { createSchema as createSchemaCore } from './core';
-import type {
-  Fallback,
-  RefineParams,
-  SafeParseError,
-  SafeParseSuccess,
-  SchemaMetadata,
-} from './extensions';
+import { createSchema as createSchemaCore, parse, safeParse } from './core';
+import type { Fallback, RefineParams, SchemaMetadata } from './extensions';
 import {
   catchValue,
   copy,
@@ -21,11 +17,9 @@ import {
   nullable,
   nullish,
   optional,
-  parse,
   postprocess,
   preprocess,
   refine,
-  safeParse,
 } from './extensions';
 
 export interface Schema<T> extends SchemaCore<T> {

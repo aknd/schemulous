@@ -1,6 +1,6 @@
 import type { Infer, SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
-import { parse } from '../extensions';
+import { parse } from './parse';
 import type { ValidationIssue } from './errors';
 import { ValidationError, createValidationIssue } from './errors';
 

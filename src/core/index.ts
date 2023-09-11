@@ -34,5 +34,8 @@ export { createIntersectionSchemaBase, intersection } from './intersection';
 export type { UnionSchemaCore, UnionValidationOptions } from './union';
 export { createUnionSchemaBase, union } from './union';
 
+export type { SafeParseError, SafeParseSuccess } from './parse';
+export { parse, safeParse } from './parse';
+
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';

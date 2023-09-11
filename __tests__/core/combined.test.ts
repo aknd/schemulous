@@ -11,6 +11,7 @@ import {
   number,
   object,
   record,
+  safeParse,
   string,
   symbol,
   tuple,
@@ -27,7 +28,6 @@ import {
   maximum,
   minLength,
   minimum,
-  safeParse,
 } from '../../src/extensions';
 
 describe('Nested Combined SchemaCore Tests', () => {

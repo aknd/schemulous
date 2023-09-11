@@ -1,8 +1,9 @@
 import type { Infer, SchemaCore, ValidationOptions } from './schema';
 import { createSchema } from './schema';
 import type { ObjectSchemaCore } from './object';
+import { parse } from './parse';
 import type { WithObjectSchemaEx } from '../extensions';
-import { copy, parse, passthrough } from '../extensions';
+import { copy, passthrough } from '../extensions';
 import type { ValidationIssue } from './errors';
 import { ValidationError } from './errors';
 import { getType } from '../helpers';

@@ -4,8 +4,6 @@ export { meta } from './openapi-extensions';
 export type {
   Fallback,
   RefineParams,
-  SafeParseError,
-  SafeParseSuccess,
   WithOptional,
   WithPrivateProps,
 } from './schema-extensions';
@@ -16,11 +14,9 @@ export {
   nullable,
   nullish,
   optional,
-  parse,
   postprocess,
   preprocess,
   refine,
-  safeParse,
 } from './schema-extensions';
 
 export {

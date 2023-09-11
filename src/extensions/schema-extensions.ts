@@ -178,13 +178,14 @@ export type WithPrivateProps<T> = WithIssues &
 export const copy = <T, S extends SchemaCore<T>>(
   schema: S & WithPrivateProps<T>
 ): S => {
-  const copy = { ...schema };
-  copy._preprocesses = schema._preprocesses?.slice();
-  copy._refinements = schema._refinements?.slice();
-  copy._postprocesses = schema._postprocesses?.slice();
-  copy._metadata = plainDeepCopy(schema._metadata);
+  const copiedSchema = { ...schema };
+  copiedSchema._issues = undefined;
+  copiedSchema._preprocesses = schema._preprocesses?.slice();
+  copiedSchema._refinements = schema._refinements?.slice();
+  copiedSchema._postprocesses = schema._postprocesses?.slice();
+  copiedSchema._metadata = plainDeepCopy(schema._metadata);
 
-  return copy as S;
+  return copiedSchema as S;
 };
 
 export const parse = <T, S extends SchemaCore<T>>(

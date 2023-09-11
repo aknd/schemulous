@@ -1,12 +1,20 @@
 import { describe, expect, test } from 'vitest';
 import {
+  any,
   array,
   boolean,
+  date,
+  enumType,
   intersection,
+  literal,
+  nullType,
   number,
   object,
+  record,
   string,
+  symbol,
   tuple,
+  undefinedType,
   union,
 } from '../src';
 
@@ -114,6 +122,40 @@ describe('Nested Combined Schema Tests', () => {
     };
 
     const result = ComplexObjectSchema.safeParse(data);
+    if (!result.success) {
+      console.log(result.error.issues);
+    }
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data).toEqual(data);
+  });
+});
+
+describe('Additional Combined Schema Tests', () => {
+  const ExtendedObjectSchema = object({
+    sym: symbol(),
+    undef: undefinedType(),
+    nul: nullType(),
+    dt: date(),
+    anyField: any(),
+    lit: literal('specificValue'),
+    enumField: enumType(['option1', 'option2', 'option3']),
+    rec: record(number()),
+  });
+
+  test('should validate chained combined schemas successfully', () => {
+    const data = {
+      sym: Symbol('test'),
+      undef: undefined,
+      nul: null,
+      dt: new Date(),
+      anyField: 'anything',
+      lit: 'specificValue',
+      enumField: 'option2',
+      rec: { key1: 1, key2: 2 },
+    };
+
+    const result = ExtendedObjectSchema.safeParse(data);
     if (!result.success) {
       console.log(result.error.issues);
     }

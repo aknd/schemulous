@@ -97,14 +97,16 @@ export const toOpenApi = <T>(
     const objectSchema = schema as ObjectSchemaCore<T> & WithObjectSchemaEx;
     openApiSchema.properties = {};
     for (const key in objectSchema.shape) {
-      if (Object.prototype.hasOwnProperty.call(objectSchema.shape, key)) {
-        const propSchema = objectSchema.shape[key];
-        const propPath = [...(path ?? []), key];
-        openApiSchema.properties[key] = toOpenApi(
-          propSchema as SchemaCore<T>,
-          propPath
-        );
+      if (!Object.prototype.hasOwnProperty.call(objectSchema.shape, key)) {
+        continue;
       }
+
+      const propSchema = objectSchema.shape[key];
+      const propPath = [...(path ?? []), key];
+      openApiSchema.properties[key] = toOpenApi(
+        propSchema as SchemaCore<T>,
+        propPath
+      );
     }
 
     if (objectSchema._strict) {

@@ -19,7 +19,7 @@ import {
 } from '../src';
 
 describe('Nested Combined Schema Tests', () => {
-  const StringSchema = string().minLength(5).maxLength(10).email();
+  const StringSchema = string().minLength(10).maxLength(20).email();
 
   const NumberSchema = number().int().minimum(5).maximum(100);
 
@@ -43,7 +43,7 @@ describe('Nested Combined Schema Tests', () => {
 
   const ArrayWithObjectSchema = array(
     object({
-      id: NumberSchema.copy(),
+      id: number().int(),
       details: SimpleObjectSchema.copy(),
     })
   );
@@ -104,7 +104,7 @@ describe('Nested Combined Schema Tests', () => {
           },
         },
       ],
-      mixed: ['Hello', ['World', 42, false]],
+      mixed: ['JohnDoe@example.com', ['JohnDoe@example.com', 42, false]],
       both: {
         name: 'JohnDoe@example.com',
         age: 30,

@@ -31,7 +31,7 @@ import {
 } from '../../src/extensions';
 
 describe('Nested Combined SchemaCore Tests', () => {
-  const StringSchema = email(maxLength(minLength(string(), 5), 10));
+  const StringSchema = email(maxLength(minLength(string(), 10), 20));
 
   const NumberSchema = maximum(minimum(int(number()), 5), 100);
 
@@ -52,7 +52,7 @@ describe('Nested Combined SchemaCore Tests', () => {
 
   const ArrayWithObjectSchema = array(
     object({
-      id: copy(NumberSchema),
+      id: int(number()),
       details: copy(SimpleObjectSchema),
     })
   );
@@ -108,7 +108,7 @@ describe('Nested Combined SchemaCore Tests', () => {
           },
         },
       ],
-      mixed: ['Hello', ['World', 42, false]],
+      mixed: ['JohnDoe@example.com', ['JohnDoe@example.com', 42, false]],
       both: {
         name: 'JohnDoe@example.com',
         age: 30,

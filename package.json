@@ -8,7 +8,7 @@
     "build": "tsc -p .",
     "lint": "eslint ./src/*.ts ./src/**/*.ts __tests__/*.ts __tests__/**/*.ts",
     "lint:fix": "eslint ./src/*.ts ./src/**/*.ts __tests__/*.ts __tests__/**/*.ts --fix",
-    "type-check": "tsc -p tsconfig.test.json --noEmit",
+    "type-check": "tsc -p type-check.config.json --noEmit",
     "test": "vitest --run"
   },
   "repository": {

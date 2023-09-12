@@ -5,6 +5,20 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./core": {
+      "import": "./dist/core/index.mjs",
+      "require": "./dist/core/index.js"
+    },
+    "./extensions": {
+      "import": "./dist/extensions/index.mjs",
+      "require": "./dist/extensions/index.js"
+    }
+  },
   "scripts": {
     "lint": "eslint ./src/*.ts ./src/**/*.ts ./__tests__/*.ts ./__tests__/**/*.ts",
     "lint:fix": "eslint ./src/*.ts ./src/**/*.ts ./__tests__/*.ts ./__tests__/**/*.ts --fix",

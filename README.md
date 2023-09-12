@@ -48,6 +48,39 @@ const UserSchema = object({
 });
 ```
 
+## Type Inference with `Infer`
+
+One of the powerful features of `schemulous` is its ability to infer TypeScript types directly from your schema definitions. This ensures that your data structures and their validations are always in sync, reducing potential type-related issues in your codebase.
+
+To infer a type from a schema, you can use the `Infer` utility:
+
+```typescript
+type User = Infer<typeof UserSchema>;
+```
+
+With the above line, a new type named `User` is created. This type will have all the properties and constraints defined in `UserSchema`. Any changes made to the schema will automatically reflect in the `User` type, ensuring consistency and reducing manual type updates.
+
+If you were to manually define the `User` type, it would look something like this:
+
+```typescript
+type User = {
+  name: string;
+  age: number;
+  email: string;
+  birthDate: string;
+  status: "active" | "inactive" | "suspended";
+  isPremiumMember: boolean;
+  hobbies: string[];
+  weight: number;
+  height: number | null;
+  nickname: string | undefined;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+This inferred type can then be used throughout your codebase wherever you need to reference the structure of a user, be it in function parameters, class properties, or elsewhere.
+
 ### Conversion to OpenAPI
 
 Using the `toOpenApi` function, you can convert the defined schema into an OpenAPI representation:

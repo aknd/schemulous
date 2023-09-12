@@ -129,6 +129,93 @@ describe('Nested Combined Schema Tests', () => {
     if (!result.success) return;
     expect(result.data).toEqual(data);
   });
+
+  test('should fail validation for incorrect types in nested combined object', () => {
+    const data = {
+      data: {
+        profile: {
+          name: 'JohnDoe@example.com',
+          age: 30,
+          score: 50,
+        },
+        isActive: true,
+      },
+      list: [
+        {
+          id: 1,
+          details: {
+            name: 'JohnDoe@example.com',
+            age: 25.5, // Should be an integer
+            score: 45,
+          },
+        },
+        {
+          id: 2,
+          details: {
+            name: 'JaneDoe@example.com',
+            age: 28,
+            score: 10, // Should be greater than 10
+          },
+        },
+      ],
+      mixed: [
+        'JohnDoe@example.com',
+        [
+          'JohnDoe..@example.com', // Should be a valid email shorter or equal to 20 characters
+          42,
+          false,
+        ],
+      ],
+      both: {
+        name: 'JohnDoe@example.com',
+        age: 30,
+        score: 60,
+        isVerified: true,
+      },
+      either: 'JohnDoe@example.com', // email instead of object (OK for union)
+      usersArray: {
+        users: ['JohnDoe@example.com', 'JaneDoe@example.com'],
+      },
+    };
+
+    const result = ComplexObjectSchema.safeParse(data);
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    const issues = result.error.issues;
+    expect(issues.length).toEqual(4);
+    let issue = issues.find(
+      (i) =>
+        i.path?.[0] === 'list' &&
+        i.path?.[1] === 0 &&
+        i.path?.[2] === 'details' &&
+        i.path?.[3] === 'age'
+    );
+    expect(issue?.code).toEqual('invalid_type');
+    issue = issues.find(
+      (i) =>
+        i.path?.[0] === 'list' &&
+        i.path?.[1] === 1 &&
+        i.path?.[2] === 'details' &&
+        i.path?.[3] === 'score'
+    );
+    expect(issue?.code).toEqual('too_small');
+    issue = issues.find(
+      (i) =>
+        i.path?.[0] === 'mixed' &&
+        i.path?.[1] === 1 &&
+        i.path?.[2] === 0 &&
+        i.validation === 'email'
+    );
+    expect(issue?.code).toEqual('invalid_string');
+    issue = issues.find(
+      (i) =>
+        i.path?.[0] === 'mixed' &&
+        i.path?.[1] === 1 &&
+        i.path?.[2] === 0 &&
+        i.maximum === 20
+    );
+    expect(issue?.code).toEqual('too_big');
+  });
 });
 
 describe('Additional Combined Schema Tests', () => {

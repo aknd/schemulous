@@ -1,2 +1,2 @@
-export type { OpenApiDataType, StringFormat } from './toOpenApi';
+export type { NumberFormat, OpenApiDataType, StringFormat } from './toOpenApi';
 export { toOpenApi } from './toOpenApi';

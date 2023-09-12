@@ -26,6 +26,8 @@ export type OpenApiDataType = (typeof OPEN_API_DATA_TYPE)[number];
 
 export type StringFormat = 'email' | 'uuid' | 'date' | 'date-time';
 
+export type NumberFormat = 'float' | 'double' | 'int32' | 'int64';
+
 export type OpenApiSchema<T> = {
   type?: OpenApiDataType;
   nullable?: boolean;
@@ -34,7 +36,7 @@ export type OpenApiSchema<T> = {
   default?: T;
   example?: T;
   enum?: [...Exclude<T, null>[], T | null];
-  format?: StringFormat;
+  format?: StringFormat | NumberFormat;
   pattern?: string;
   minLength?: number;
   maxLength?: number;

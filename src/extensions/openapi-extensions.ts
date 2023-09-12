@@ -1,5 +1,5 @@
 import type { SchemaCore } from '../core';
-import type { OpenApiDataType, StringFormat } from '../openapi';
+import type { NumberFormat, OpenApiDataType, StringFormat } from '../openapi';
 import { pick } from '../helpers';
 
 export type OpenApiMetadata<T> = {
@@ -7,7 +7,7 @@ export type OpenApiMetadata<T> = {
   title?: string;
   description?: string;
   example?: T;
-  format?: StringFormat;
+  format?: StringFormat | NumberFormat;
   pattern?: string;
   minLength?: number;
   maxLength?: number;

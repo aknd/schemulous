@@ -7,7 +7,7 @@ export type OpenApiMetadata<T> = {
   title?: string;
   description?: string;
   example?: T;
-  format?: StringFormat | NumberFormat;
+  format?: StringFormat | NumberFormat | string;
   pattern?: string;
   minLength?: number;
   maxLength?: number;

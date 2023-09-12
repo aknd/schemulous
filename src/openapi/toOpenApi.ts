@@ -36,7 +36,7 @@ export type OpenApiSchema<T> = {
   default?: T;
   example?: T;
   enum?: [...Exclude<T, null>[], T | null];
-  format?: StringFormat | NumberFormat;
+  format?: StringFormat | NumberFormat | string;
   pattern?: string;
   minLength?: number;
   maxLength?: number;

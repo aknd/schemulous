@@ -201,6 +201,11 @@ describe('Schema', () => {
         expect(result.success).toBe(true);
       });
 
+      test('copied schema should have minLength constraint', () => {
+        const result = copiedSchema.safeParse('abcd');
+        expect(result.success).toBe(false);
+      });
+
       test('copied schema should have maxLength constraint', () => {
         const result = copiedSchema.safeParse('abcdefghijk');
         expect(result.success).toBe(false);
@@ -216,6 +221,11 @@ describe('Schema', () => {
         expect(result.success).toBe(true);
       });
 
+      test('copied schema should have minimum constraint', () => {
+        const result = copiedSchema.safeParse(4);
+        expect(result.success).toBe(false);
+      });
+
       test('copied schema should have maximum constraint', () => {
         const result = copiedSchema.safeParse(15);
         expect(result.success).toBe(false);
@@ -224,7 +234,7 @@ describe('Schema', () => {
 
     describe('ObjectSchema', () => {
       const originalSchema = object({
-        name: string(),
+        name: string().minLength(4),
       });
       const copiedSchema = originalSchema.copy().passthrough();
 
@@ -233,6 +243,14 @@ describe('Schema', () => {
         expect(result.success).toBe(true);
         if (!result.success) return;
         expect(result.data).toEqual({ name: 'John' });
+      });
+
+      test('name of copied schema with passthrough should have minLength constraint', () => {
+        const result = copiedSchema.safeParse({ name: 'Jo', age: 30 });
+        expect(result.success).toBe(false);
+        if (result.success) return;
+        const issue = result.error.issues.find((i) => i.path?.[0] === 'name');
+        expect(issue?.code).toEqual('too_small');
       });
 
       test('copied schema with passthrough should allow additional properties', () => {

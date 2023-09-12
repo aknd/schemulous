@@ -2,6 +2,7 @@
   "name": "schemulous",
   "version": "0.1.0",
   "description": "A robust and flexible schema definition and validation library for TypeScript, designed to seamlessly integrate with OpenAPI specifications.",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

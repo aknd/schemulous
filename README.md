@@ -83,7 +83,7 @@ type User = {
 
 This inferred type can then be used throughout your codebase wherever you need to reference the structure of a user, be it in function parameters, class properties, or elsewhere.
 
-### Conversion to OpenAPI
+## Conversion to OpenAPI
 
 Using the `toOpenApi` function, you can convert the defined schema into an OpenAPI representation:
 
@@ -128,7 +128,7 @@ The output will be:
 }
 ```
 
-### Validation
+## Validation
 
 To validate data against your schema, you can use the `parse` method:
 
@@ -175,7 +175,7 @@ if (result.success) {
 
 The `safeParse` method returns either a `SafeParseSuccess` object containing the validated data or a `SafeParseError` object detailing the validation issues.
 
-### Error Handling
+## Error Handling
 
 ```typescript
 const invalidUserData = {
@@ -269,7 +269,7 @@ Always remember to use the `copy` method when you want to extend or modify an ex
 
 While the fluent API and method chaining in `schemulous` offer a concise and readable way to define schemas, it comes with a trade-off. Every method in the chain, even if not used, gets bundled in the final build, potentially increasing the size of your application.
 
-To cater to developers who prefer a leaner approach, `schemulous` offers a minimalist version. This version allows you to import only the functionalities you need, ensuring a smaller footprint.
+To cater to developers who prefer a leaner approach, `schemulous` offers a minimalist version. **Importantly, even in this minimalist version, you can access and utilize all the features of `schemulous`.** This version allows you to import only the functionalities you need, ensuring a smaller footprint without compromising on the feature set.
 
 ### How to Use the Minimalist Version?
 

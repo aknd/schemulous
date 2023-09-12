@@ -55,6 +55,8 @@ One of the powerful features of `schemulous` is its ability to infer TypeScript 
 To infer a type from a schema, you can use the `Infer` utility:
 
 ```typescript
+import { type Infer } from 'schemulous';
+
 type User = Infer<typeof UserSchema>;
 ```
 
@@ -176,17 +178,17 @@ The `safeParse` method returns either a `SafeParseSuccess` object containing the
 ### Error Handling
 
 ```typescript
-const invalidUserData1 = {
+const invalidUserData = {
   name: "Jo", // Too short, minimum length is 3
   age: 15,    // Below the minimum age of 18
   email: "not-an-email", // Not a valid email format
   // ... other fields
 };
 
-const result1 = UserSchema.safeParse(invalidUserData1);
+const result = UserSchema.safeParse(invalidUserData);
 
-if (!result1.success) {
-  console.log(result1.error.issues);
+if (!result.success) {
+  console.log(result.error.issues);
   /*
     [ { code: 'too_small',
         inclusive: true,
@@ -233,3 +235,32 @@ const NameSchema = string().minLength(5, (value) => `${value} is too short. Plea
 In the second example, the error message will include the actual input value, making the feedback more specific to the user's input.
 
 By customizing error messages, you can ensure that your application provides clear and actionable feedback to users, enhancing the overall user experience.
+
+## Schema Copying
+
+When working with `schemulous`, there might be scenarios where you want to reuse an existing schema but with slight modifications. In such cases, it's essential to be aware of the mutable nature of schemas. Directly chaining methods to an existing schema will modify the original schema, which might not be the desired behavior.
+
+To avoid unintentional modifications, `schemulous` provides a `copy` method. By copying a schema, you can derive a new schema from the original one without affecting the original schema.
+
+### Why Copy?
+
+1. **Immutability**: Ensure that the original schema remains unchanged when you want to create variations.
+2. **Flexibility**: Easily create multiple versions of a schema based on a common base schema.
+
+### Example
+
+Let's consider a simple string schema:
+
+```typescript
+const BaseNameSchema = string().minLength(5);
+```
+
+Now, suppose you want a new schema derived from `BaseNameSchema` but with an added constraint of a maximum length:
+
+```typescript
+const CopiedNameSchema = BaseNameSchema.copy().maxLength(10);
+```
+
+By using `copy()`, `BaseNameSchema` remains unaffected, and you have a new schema `CopiedNameSchema` with both the minimum and maximum length constraints.
+
+Always remember to use the `copy` method when you want to extend or modify an existing schema without altering its original definition. This ensures clarity and avoids potential bugs in your schema definitions.

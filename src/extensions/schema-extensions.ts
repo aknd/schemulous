@@ -89,6 +89,7 @@ export const preprocess = <T, S extends SchemaCore<T>>(
 
 export type WithRefinements<T> = {
   _refinements?: ((
+    currentSchema: SchemaCore<T>,
     value: T,
     schemaType: SchemaType,
     path?: (string | number)[]
@@ -111,14 +112,15 @@ export const refine = <T, S extends SchemaCore<T>>(
   params?: RefineParams<T> | ((value: T) => RefineParams<T>)
 ): S => {
   const refinement = (
+    currentSchema: SchemaCore<T> & WithIssues & WithRefinements<T>,
     value: T,
     schemaType: SchemaType,
     path?: (string | number)[]
   ): boolean => {
     const isValid = check(value);
     if (!isValid) {
-      if (!schema._issues) {
-        schema._issues = [];
+      if (!currentSchema._issues) {
+        currentSchema._issues = [];
       }
       if (typeof params === 'function') {
         params = params(value);
@@ -134,7 +136,7 @@ export const refine = <T, S extends SchemaCore<T>>(
         value,
         path: errorPath,
       });
-      schema._issues.push(issue);
+      currentSchema._issues.push(issue);
     }
 
     return isValid;

@@ -37,7 +37,7 @@ export const parse = <T, S extends SchemaCore<T>>(
   }
 
   for (const refinement of schema._refinements ?? []) {
-    const isValid = refinement(result, schema.schemaType, params?.path);
+    const isValid = refinement(schema, result, schema.schemaType, params?.path);
     if (!isValid && schema._fallback !== undefined) {
       const fallbackValue =
         typeof schema._fallback === 'function'

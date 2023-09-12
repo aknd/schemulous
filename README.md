@@ -207,3 +207,29 @@ if (!result1.success) {
   */
 }
 ```
+### Custom Error Messages
+
+`schemulous` provides default error messages for validations, but there might be cases where you'd want to customize these messages to better fit your application's context or to provide more user-friendly feedback.
+
+For instance, when using the `minLength` validator on a `string()`, you can provide a custom error message in two ways:
+
+1. Directly passing a string.
+2. Using a function that returns a string, which allows for dynamic error messages based on the input value.
+
+Let's see how to use these with the `minLength` validator:
+
+#### 1. Direct String
+
+```typescript
+const NameSchema = string().minLength(5, "Name must be at least 5 characters long.");
+```
+
+#### 2. Function Returning a String
+
+```typescript
+const NameSchema = string().minLength(5, (value) => `${value} is too short. Please provide a name with at least 5 characters.`);
+```
+
+In the second example, the error message will include the actual input value, making the feedback more specific to the user's input.
+
+By customizing error messages, you can ensure that your application provides clear and actionable feedback to users, enhancing the overall user experience.

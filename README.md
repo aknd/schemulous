@@ -264,3 +264,31 @@ const CopiedNameSchema = BaseNameSchema.copy().maxLength(10);
 By using `copy()`, `BaseNameSchema` remains unaffected, and you have a new schema `CopiedNameSchema` with both the minimum and maximum length constraints.
 
 Always remember to use the `copy` method when you want to extend or modify an existing schema without altering its original definition. This ensures clarity and avoids potential bugs in your schema definitions.
+
+## Minimalist Version: `schemulous/core`
+
+While the fluent API and method chaining in `schemulous` offer a concise and readable way to define schemas, it comes with a trade-off. Every method in the chain, even if not used, gets bundled in the final build, potentially increasing the size of your application.
+
+To cater to developers who prefer a leaner approach, `schemulous` offers a minimalist version. This version allows you to import only the functionalities you need, ensuring a smaller footprint.
+
+### How to Use the Minimalist Version?
+
+1. **Core Imports**: Instead of importing from `schemulous`, use `schemulous/core` for the basic functionalities.
+
+   ```typescript
+   import { string, safeParse } from 'schemulous/core';
+   ```
+
+2. **Extensions**: For additional methods that were previously available through chaining, you can import them from `schemulous/extensions`.
+
+   ```typescript
+   import { minLength } from 'schemulous/extensions';
+   ```
+
+3. **Usage**: Instead of chaining, you'll use the imported methods as functions, passing the schema as the first argument.
+
+   ```typescript
+   const NameSchema = minLength(string(), 5);
+   ```
+
+By adopting this minimalist approach, you can ensure that you're only bundling the functionalities you need, making your application leaner and potentially faster. This is especially beneficial for web applications where every kilobyte matters for performance.

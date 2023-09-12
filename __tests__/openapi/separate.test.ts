@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import {
   array,
+  boolean,
   enumType,
   intersection,
   literal,
@@ -202,6 +203,96 @@ describe('toOpenApi Tests', () => {
       title: 'A null',
       description: 'A null value',
       example: null,
+    });
+  });
+});
+
+describe('toOpenApi with nullable() Tests', () => {
+  test('should convert nullable schemas to OpenAPI format', () => {
+    // Convert to OpenAPI format with nullable
+    const StringOpenApi = toOpenApi(string().nullable());
+    const NumberOpenApi = toOpenApi(number().nullable());
+    const BooleanOpenApi = toOpenApi(boolean().nullable());
+    const ObjectOpenApi = toOpenApi(object({ name: string() }).nullable());
+    const ArrayOpenApi = toOpenApi(array(string()).nullable());
+    const LiteralOpenApi = toOpenApi(literal('hello').nullable());
+    const EnumOpenApi = toOpenApi(enumType(['a', 'b', 'c']).nullable());
+    const RecordOpenApi = toOpenApi(record(string()).nullable());
+    const TupleOpenApi = toOpenApi(tuple([string(), number()]).nullable());
+    const UnionOpenApi = toOpenApi(union([string(), number()]).nullable());
+    const IntersectionOpenApi = toOpenApi(
+      intersection([
+        object({ id: number() }),
+        object({ name: string() }),
+      ]).nullable()
+    );
+
+    // Assertions
+    expect(StringOpenApi).toEqual({
+      type: 'string',
+      nullable: true,
+    });
+    expect(NumberOpenApi).toEqual({
+      type: 'number',
+      nullable: true,
+    });
+    expect(BooleanOpenApi).toEqual({
+      type: 'boolean',
+      nullable: true,
+    });
+    expect(ObjectOpenApi).toEqual({
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+      },
+      required: ['name'],
+      nullable: true,
+    });
+    expect(ArrayOpenApi).toEqual({
+      type: 'array',
+      items: { type: 'string' },
+      nullable: true,
+    });
+    expect(LiteralOpenApi).toEqual({
+      type: 'string',
+      enum: ['hello', null],
+      nullable: true,
+    });
+    expect(EnumOpenApi).toEqual({
+      type: 'string',
+      enum: ['a', 'b', 'c', null],
+      nullable: true,
+    });
+    expect(RecordOpenApi).toEqual({
+      type: 'object',
+      additionalProperties: { type: 'string' },
+      nullable: true,
+    });
+    expect(TupleOpenApi).toEqual({
+      type: 'array',
+      items: [{ type: 'string' }, { type: 'number' }],
+      minItems: 2,
+      maxItems: 2,
+      nullable: true,
+    });
+    expect(UnionOpenApi).toEqual({
+      oneOf: [{ type: 'string' }, { type: 'number' }],
+      nullable: true,
+    });
+    expect(IntersectionOpenApi).toEqual({
+      allOf: [
+        {
+          type: 'object',
+          properties: { id: { type: 'number' } },
+          required: ['id'],
+        },
+        {
+          type: 'object',
+          properties: { name: { type: 'string' } },
+          required: ['name'],
+        },
+      ],
+      nullable: true,
     });
   });
 });

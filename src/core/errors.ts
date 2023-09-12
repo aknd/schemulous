@@ -23,7 +23,7 @@ export type StringValidationType =
   | 'regex';
 
 export type ValidationIssue = {
-  code: ValidationIssueCode;
+  code: ValidationIssueCode | string;
   expected?: unknown;
   keys?: string[];
   inclusive?: boolean;

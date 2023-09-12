@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import type { Infer } from '../src';
 import { array, number, object, string } from '../src';
 
 describe('ObjectSchema', () => {
@@ -21,7 +22,7 @@ describe('ObjectSchema', () => {
         name: 'John',
         age: 30,
         hobbies: ['reading', 'swimming'],
-      });
+      } as Infer<typeof UserSchema>);
     });
 
     test('should remove undefined keys', () => {

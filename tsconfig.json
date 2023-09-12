@@ -8,7 +8,7 @@
     "resolveJsonModule": true,                           /* Enable importing .json files. */
     "declaration": true,                                 /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
     "declarationMap": false,                             /* Create sourcemaps for d.ts files. */
-    "sourceMap": false,                                   /* Create source map files for emitted JavaScript files. */
+    "sourceMap": false,                                  /* Create source map files for emitted JavaScript files. */
     "outDir": "./dist",                                  /* Specify an output folder for all emitted files. */
     "removeComments": true,                              /* Disable emitting comments. */
     "downlevelIteration": true,                          /* Emit more compliant, but verbose and less performant JavaScript for iteration. */

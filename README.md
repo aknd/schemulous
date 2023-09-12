@@ -48,7 +48,7 @@ const UserSchema = object({
 });
 ```
 
-## Type Inference with `Infer`
+### Type Inference with `Infer`
 
 One of the powerful features of `schemulous` is its ability to infer TypeScript types directly from your schema definitions. This ensures that your data structures and their validations are always in sync, reducing potential type-related issues in your codebase.
 
@@ -126,15 +126,31 @@ The output will be:
 }
 ```
 
-## Validation
+### Validation
 
 To validate data against your schema, you can use the `parse` method:
 
 ```typescript
 import { ValidationError } from 'schemulous';
 
+const data = {
+  name: "John Doe",
+  age: 25,
+  email: "john.doe@example.com",
+  birthDate: "1996-05-15",
+  status: "active",
+  isPremiumMember: true,
+  hobbies: ["reading", "hiking", "swimming"],
+  weight: 70,
+  height: 175,
+  nickname: "Johnny",
+  createdAt: "2022-01-01T12:00:00Z",
+  updatedAt: "2022-01-02T12:00:00Z",
+};
+
 try {
   const validData = UserSchema.parse(data);
+  // Here, validData contains the parsed data that adheres to the defined schema.
   console.log(validData);
 } catch (error) {
   if (error instanceof ValidationError) {
@@ -156,3 +172,38 @@ if (result.success) {
 ```
 
 The `safeParse` method returns either a `SafeParseSuccess` object containing the validated data or a `SafeParseError` object detailing the validation issues.
+
+### Error Handling
+
+```typescript
+const invalidUserData1 = {
+  name: "Jo", // Too short, minimum length is 3
+  age: 15,    // Below the minimum age of 18
+  email: "not-an-email", // Not a valid email format
+  // ... other fields
+};
+
+const result1 = UserSchema.safeParse(invalidUserData1);
+
+if (!result1.success) {
+  console.log(result1.error.issues);
+  /*
+    [ { code: 'too_small',
+        inclusive: true,
+        message: 'String must contain at least 3 character(s)',
+        minimum: 3,
+        path: [ 'name' ],
+        type: 'string' },
+      { code: 'too_small',
+        inclusive: true,
+        message: 'Number must be greater than or equal to 18',
+        minimum: 18,
+        path: [ 'age' ],
+        type: 'number' },
+      { code: 'invalid_string',
+        message: 'Invalid email',
+        path: [ 'email' ],
+        validation: 'email' } ]
+  */
+}
+```

@@ -7,7 +7,10 @@
     "baseUrl": "./",                                     /* Specify the base directory to resolve non-relative module names. */
     "resolveJsonModule": true,                           /* Enable importing .json files. */
     "declaration": true,                                 /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
+    "declarationMap": false,                             /* Create sourcemaps for d.ts files. */
+    "sourceMap": false,                                   /* Create source map files for emitted JavaScript files. */
     "outDir": "./dist",                                  /* Specify an output folder for all emitted files. */
+    "removeComments": true,                              /* Disable emitting comments. */
     "downlevelIteration": true,                          /* Emit more compliant, but verbose and less performant JavaScript for iteration. */
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
@@ -15,5 +18,11 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "__tests__/**/*.ts",
+    "playground.ts",
+    "examples"
+  ]
 }

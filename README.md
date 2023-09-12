@@ -334,3 +334,34 @@ In many scenarios, the built-in validation methods might not cover all the speci
    ```
 
 By leveraging the `refine` method, you can ensure that your schemas are tailored to your specific needs, providing both robust validation and clear documentation.
+
+## `abortEarly` Option
+
+In many scenarios, you might want to halt the validation process as soon as a single validation error is encountered, rather than checking all validation rules. The `abortEarly` option allows you to do just that.
+
+When you set `abortEarly: true` on a schema, the validation process will stop and throw an error immediately upon the first validation failure it encounters.
+
+Here's an example:
+
+```typescript
+const UserSchema = object(
+  {
+    name: string().minLength(3),
+    details: object(
+      {
+        email: string().email(),
+        status: enumType(['active', 'inactive']),
+      },
+      { abortEarly: true }
+    ),
+    isPremiumMember: boolean(),
+  },
+  { abortEarly: true }
+);
+```
+
+In the above example, if the `UserSchema` encounters a validation error, it will immediately throw an error without checking the subsequent properties. This is because `abortEarly: true` is set on the main schema.
+
+However, it's crucial to understand the scope of `abortEarly`. If a property itself has multiple validations (like the `details` property in the example), and you want to stop validation on the first error within that property, you must also set `abortEarly: true` on that property's schema. Otherwise, all validations for that specific property will be checked before an error is thrown.
+
+In simpler terms, `abortEarly` works at the level it's set. If you want immediate error feedback at both the main schema and nested property levels, ensure you set `abortEarly: true` at both levels.

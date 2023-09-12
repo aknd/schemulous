@@ -8,15 +8,18 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./core": {
       "import": "./dist/core/index.mjs",
-      "require": "./dist/core/index.js"
+      "require": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
     },
     "./extensions": {
       "import": "./dist/extensions/index.mjs",
-      "require": "./dist/extensions/index.js"
+      "require": "./dist/extensions/index.js",
+      "types": "./dist/extensions/index.d.ts"
     }
   },
   "scripts": {

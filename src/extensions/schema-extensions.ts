@@ -1,7 +1,9 @@
 import type {
   CreateValidationIssueParams,
+  ElementSchemaCore,
   SchemaCore,
   SchemaType,
+  ShapeCore,
   ValidationIssue,
 } from '../core';
 import { createValidationIssue } from '../core';
@@ -176,6 +178,8 @@ export type WithPrivateProps<T> = WithIssues &
   WithPostprocesses<T> &
   WithOpenApiMetadata<T>;
 
+export type Writable<T> = { -readonly [K in keyof T]: T[K] };
+
 export const copy = <T, S extends SchemaCore<T>>(
   schema: S & WithPrivateProps<T>
 ): S => {
@@ -185,6 +189,58 @@ export const copy = <T, S extends SchemaCore<T>>(
   copiedSchema._refinements = schema._refinements?.slice();
   copiedSchema._postprocesses = schema._postprocesses?.slice();
   copiedSchema._metadata = plainDeepCopy(schema._metadata);
+
+  if (schema.schemaType === 'object') {
+    const cs = copiedSchema as SchemaCore<T> & {
+      shape?: Writable<ShapeCore<T>>;
+    };
+    for (const key in cs.shape ?? {}) {
+      if (cs.shape?.hasOwnProperty(key)) {
+        const k = key as keyof T;
+        cs.shape[k] = copy(cs.shape[k]);
+      }
+    }
+  }
+  if (schema.schemaType === 'array') {
+    const cs = copiedSchema as SchemaCore<T> & {
+      element?: ElementSchemaCore<T>;
+    };
+    if (cs.element) {
+      cs.element = copy(cs.element);
+    }
+  }
+  if (schema.schemaType === 'record') {
+    const cs = copiedSchema as SchemaCore<T> & {
+      valueSchema?: SchemaCore<Record<string, unknown>>;
+    };
+    if (cs.valueSchema) {
+      cs.valueSchema = copy(cs.valueSchema);
+    }
+  }
+  if (schema.schemaType === 'tuple') {
+    const cs = copiedSchema as SchemaCore<T> & {
+      elements?: SchemaCore<unknown>[];
+    };
+    if (cs.elements) {
+      cs.elements = cs.elements.map((e) => copy(e));
+    }
+  }
+  if (schema.schemaType === 'intersection') {
+    const cs = copiedSchema as SchemaCore<T> & {
+      schemas?: SchemaCore<unknown>[];
+    };
+    if (cs.schemas) {
+      cs.schemas = cs.schemas.map((s) => copy(s));
+    }
+  }
+  if (schema.schemaType === 'union') {
+    const cs = copiedSchema as SchemaCore<T> & {
+      schemas?: SchemaCore<unknown>[];
+    };
+    if (cs.schemas) {
+      cs.schemas = cs.schemas.map((s) => copy(s));
+    }
+  }
 
   return copiedSchema as S;
 };

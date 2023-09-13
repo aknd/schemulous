@@ -10,15 +10,13 @@ export interface EnumTypeSchema<U extends readonly [string, ...string[]]>
   options: readonly [...U];
 }
 
-export type EnumTypeSchemaBuilder = <
-  const U extends readonly [string, ...string[]],
->(
+export type EnumTypeSchemaBuilder = <U extends readonly [string, ...string[]]>(
   values: U,
   options?: EnumTypeValidationOptions
 ) => EnumTypeSchema<U>;
 
 export const enumType: EnumTypeSchemaBuilder = <
-  const U extends readonly [string, ...string[]],
+  U extends readonly [string, ...string[]],
 >(
   values: U,
   options?: EnumTypeValidationOptions

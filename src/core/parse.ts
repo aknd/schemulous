@@ -8,8 +8,8 @@ export const parse = <T, S extends SchemaCore<T>>(
   params?: ParseParams
 ): T => {
   if (value === undefined && schema._default) return schema._default as T;
-  if (value === undefined && schema._optional) return value as T;
-  if (value === null && schema._nullable) return value as T;
+  if (value === undefined && schema._optional) return value as unknown as T;
+  if (value === null && schema._nullable) return value as unknown as T;
 
   for (const preprocess of schema._preprocesses ?? []) {
     value = preprocess(value);

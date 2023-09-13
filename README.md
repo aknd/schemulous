@@ -293,6 +293,20 @@ To cater to developers who prefer a leaner approach, `schemulous` offers a minim
 
 By adopting this minimalist approach, you can ensure that you're only bundling the functionalities you need, making your application leaner and potentially faster. This is especially beneficial for web applications where every kilobyte matters for performance.
 
+### ⚠️ Important Configuration Note ⚠️
+
+When using the minimalist version, ensure that your project's `tsconfig.json` has the `moduleResolution` set to either `node16`, `nodenext`, or `bundler`. This is crucial for the correct resolution of modules in the minimalist version.
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "node16" // or "nodenext" or "bundler"
+  }
+}
+```
+
+Failure to configure this might result in module resolution errors during compilation or runtime.
+
 ## Customizing Schemas with `refine`
 
 In many scenarios, the built-in validation methods might not cover all the specific requirements you have for your data. `schemulous` provides a flexible way to add custom validation logic to your schemas using the `refine` method.

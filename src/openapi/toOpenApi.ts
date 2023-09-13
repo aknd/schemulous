@@ -1,6 +1,7 @@
 import type {
   ArraySchemaCore,
   EnumTypeSchemaCore,
+  Infer,
   IntersectionSchemaCore,
   LiteralSchemaCore,
   ObjectSchemaCore,
@@ -149,7 +150,7 @@ export const toOpenApi = <T>(
       const propSchema = objectSchema.shape[key];
       const propPath = [...(path ?? []), key];
       openApiSchema.properties[key] = toOpenApi(
-        propSchema as SchemaCore<T>,
+        propSchema as SchemaCore<Infer<typeof propSchema>>,
         propPath
       );
     }

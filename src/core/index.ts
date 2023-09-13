@@ -39,3 +39,6 @@ export { parse, safeParse } from './parse';
 
 export type { CreateValidationIssueParams, ValidationIssue } from './errors';
 export { ValidationError, createValidationIssue } from './errors';
+
+// eslint-disable-next-line import/no-unused-modules
+export { toOpenApi } from '../openapi';

@@ -20,3 +20,5 @@ export { toOpenApi } from './openapi';
 
 export type { Infer } from './core';
 export { ValidationError, createValidationIssue } from './core';
+
+export * from './resolvers';

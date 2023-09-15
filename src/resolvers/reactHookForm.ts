@@ -1,14 +1,14 @@
 import type { SchemaCore } from '../core';
 import { ValidationError, parse } from '../core';
 
-type FieldValues = { [key: string]: unknown };
+export type FieldValues = { [key: string]: unknown };
 
-type FieldError = {
+export type FieldError = {
   type: string;
   message: string;
 };
 
-type FieldErrors<T extends FieldValues> = {
+export type FieldErrors<T extends FieldValues> = {
   [K in keyof T]?: T[K] extends { [key: string]: unknown }
     ? FieldErrors<T[K]>
     : T[K] extends unknown[]
@@ -16,7 +16,7 @@ type FieldErrors<T extends FieldValues> = {
     : FieldError;
 };
 
-type ResolverSuccess<T extends FieldValues> = {
+export type ResolverSuccess<T extends FieldValues> = {
   values: T;
   errors: { [key: string]: never };
 };
@@ -48,12 +48,12 @@ const setNestedValue = <T extends FieldValues>(
   }
 };
 
-type ResolverError<T extends FieldValues> = {
+export type ResolverError<T extends FieldValues> = {
   values: { [key: string]: never };
   errors: FieldErrors<T>;
 };
 
-type ResolverResult<T extends FieldValues> =
+export type ResolverResult<T extends FieldValues> =
   | ResolverSuccess<T>
   | ResolverError<T>;
 

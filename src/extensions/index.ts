@@ -1,12 +1,5 @@
-export type { SchemaMetadata, WithOpenApiMetadata } from './openapi-extensions';
 export { meta } from './openapi-extensions';
 
-export type {
-  Fallback,
-  RefineParams,
-  WithOptional,
-  WithPrivateProps,
-} from './schema-extensions';
 export {
   catchValue,
   copy,
@@ -30,10 +23,6 @@ export {
   uuid,
 } from './string-extensions';
 
-export type {
-  WithExclusiveMaximum,
-  WithExclusiveMinimum,
-} from './number-extensions';
 export {
   exclusiveMaximum,
   exclusiveMinimum,
@@ -43,9 +32,10 @@ export {
   multipleOf,
 } from './number-extensions';
 
-export type { WithObjectSchemaEx } from './object-extensions';
 export { passthrough, strict } from './object-extensions';
 
 export { maxItems, minItems } from './array-extensions';
 
 export { maxProperties, minProperties } from './record-extensions';
+
+export * from './types';
